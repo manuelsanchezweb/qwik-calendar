@@ -1,10 +1,5 @@
-import { handleLogin, handleOAuthLogin, supabase } from '~/lib/db'
-import {
-  component$,
-  useSignal,
-  useStore,
-  useVisibleTask$,
-} from '@builder.io/qwik'
+import { handleLogin, handleOAuthLogin } from '~/lib/db'
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 // import { HelperText } from '~/types/types'
 import IconGithub from '../icon-github'
 

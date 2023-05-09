@@ -1,4 +1,4 @@
-import { Signal, component$ } from '@builder.io/qwik'
+import { component$ } from '@builder.io/qwik'
 import type { User } from '@supabase/supabase-js'
 
 import { handleSignOut } from '~/lib/db'
