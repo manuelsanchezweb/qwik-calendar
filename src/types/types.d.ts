@@ -20,3 +20,8 @@ export type Day =
   | 'Friday'
   | 'Saturday'
   | 'Sunday'
+
+export interface HelperText {
+  error: boolean | null
+  text: string | null
+}

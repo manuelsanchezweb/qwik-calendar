@@ -14,9 +14,10 @@
 
 body {
   display: flex;
-  background: #ef62da;
+  background: #f5f5f5;
   min-height: 100vh;
   padding: 0 10px;
   align-items: center;
   justify-content: center;
+  color: black;
 }

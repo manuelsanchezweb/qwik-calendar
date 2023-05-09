@@ -23,10 +23,10 @@ export default component$(() => {
         <link rel="manifest" href="/manifest.json" />
         <link
           rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          referrerPolicy="no-referrer"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
         />
+
         <RouterHead />
       </head>
       <body lang="en">

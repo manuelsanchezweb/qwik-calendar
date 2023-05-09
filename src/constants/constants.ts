@@ -24,3 +24,8 @@ export const days: Day[] = [
   'Saturday',
   'Sunday',
 ]
+
+export const KEYS = {
+  SUPABASE_PUBLIC_URL: import.meta.env.PUBLIC_SUPABASE_URL,
+  SUPABASE_PUBLIC_ANON_KEY: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+}
