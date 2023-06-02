@@ -20,14 +20,6 @@
   border-radius: 50px;
 }
 
-body {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 30px;
-  background-color: #e2e1dc;
-}
 .container {
   position: relative;
   max-width: 1400px;

@@ -6,6 +6,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-primary: #2b7177;
+  color-contrast: #0b3460;
+  color-light: #fafafa;
+  color-text: #050505;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,10 +21,10 @@
 
 body {
   display: flex;
-  background: #f5f5f5;
-  min-height: 100vh;
-  padding: 0 10px;
   align-items: center;
   justify-content: center;
-  color: black;
+  background: var(--color-light);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: 0 10px;
 }

@@ -5,10 +5,11 @@ import type { User } from '@supabase/supabase-js'
 import { supabase } from '~/lib/db'
 import { AuthForm } from '~/components/auth'
 import { Navigation } from '~/components/navigation'
+import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 
 export default component$(() => {
   const userSignal = useSignal<User | null>()
-  // console.log(userSignal.value)
+  const isLoading = useSignal(true)
 
   useVisibleTask$(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -20,12 +21,15 @@ export default component$(() => {
     } = supabase.auth.onAuthStateChange((_, session) => {
       const currentUser = session?.user
       userSignal.value = currentUser ?? null
+      isLoading.value = false
     })
 
     return () => {
       authListener?.unsubscribe()
     }
   })
+
+  if (isLoading.value) return <LoadingScreen />
 
   return (
     <>
@@ -46,7 +50,7 @@ export default component$(() => {
 })
 
 export const head: DocumentHead = {
-  title: '🗓️ Calendar App con Qwik',
+  title: 'Calendar App con Qwik',
   meta: [
     {
       name: 'description',
