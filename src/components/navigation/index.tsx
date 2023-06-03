@@ -34,7 +34,9 @@ export const Navigation = component$<NavigationProps>(({ userSignal }) => {
           class="flex gap-2 items-center text-primary"
         >
           <IconManager icon="user" />
-          <span>Hola, {userSignal.user_metadata?.name}</span>
+          <span class="hidden sm:block">
+            Hola, {userSignal.user_metadata?.name}
+          </span>
         </button>
         {showUserMenu.value && (
           <div class="absolute -bottom-20 bg-primary w-full z-10 p-4 rounded-sm">

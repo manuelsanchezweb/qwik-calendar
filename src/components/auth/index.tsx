@@ -1,7 +1,6 @@
 import { handleLogin, handleOAuthLogin } from '~/lib/db'
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
-// import { HelperText } from '~/types/types'
-import IconGithub from '../icon-github'
+import { IconManager } from '~/icons/icon-manager'
 
 export const AuthForm = component$(() => {
   const userAction = useSignal('LOGIN')
@@ -175,7 +174,7 @@ export const AuthForm = component$(() => {
                   class="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
                 >
                   <div class="flex items-center justify-center">
-                    <IconGithub />
+                    <IconManager icon="github" />
                     <span class="ml-4">GitHub</span>
                   </div>
                 </button>

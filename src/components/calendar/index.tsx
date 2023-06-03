@@ -4,6 +4,10 @@ import styles from './styles.css?inline'
 import { days, months } from '~/constants/constants'
 
 export const Calendar = component$(() => {
+  return <div>Calendar</div>
+})
+
+export const OldCalendar = component$(() => {
   useStyles$(styles)
 
   useVisibleTask$(() => {
@@ -450,7 +454,7 @@ export const Calendar = component$(() => {
   })
 
   return (
-    <div class="container">
+    <div class="container my-12">
       {/* Calendar  */}
       <div class="left">
         <div class="calendar">

@@ -80,18 +80,6 @@ export async function handleLogin({
         }
       );
 
-// Error Management después de llamar a la db
-  if (error) {
-
-    Toastify({
-
-      text: 'Ha ocurrido un error. Inténtalo de nuevo.',
-      duration: 3000,
-
-    }).showToast();
-    return;
-
-  }
 
   if (type === 'REGISTER') {
     emailSignal.value = '';
@@ -106,5 +94,19 @@ export async function handleLogin({
       }
 
     }).showToast();
+  }
+
+
+  // Error Management después de llamar a la db
+  if (userError || error) {
+
+    Toastify({
+
+      text: 'Ha ocurrido un error. Inténtalo de nuevo.',
+      duration: 3000,
+
+    }).showToast();
+    return;
+
   }
 }

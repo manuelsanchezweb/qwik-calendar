@@ -17,8 +17,8 @@ Design is to be found [here](https://www.figma.com/file/VUhSBt6jfrSfHVM6pv3yoH/c
 - [x] Add logos
 - [x] Add icon handler
 - [x] Complete navigation
-- [ ] Complete number with date
-- [ ] Complete filter and + button
+- [x] Complete number with date
+- [x] Complete filter and + button
 - [ ] Add calendar (no functionality)
 - [ ] Add Events Today
 

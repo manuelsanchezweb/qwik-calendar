@@ -28,3 +28,9 @@ body {
   min-height: 100vh;
   padding: 0 10px;
 }
+
+@layer components {
+  .btn {
+    @apply bg-primaryLight text-primary h-fit py-2 px-8 text-base hover:bg-primary hover:text-primaryLight focus:bg-primary focus:text-primaryLight cursor-pointer w-fit rounded-md;
+  }
+}
