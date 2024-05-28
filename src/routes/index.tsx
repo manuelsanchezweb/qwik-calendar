@@ -4,7 +4,7 @@ import { Calendar } from '~/components/calendar'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
 import { IS_LOADING_FROM_BEGINNING } from '~/config'
-import { FAKE_DATA } from '~/data'
+import { FAKE_APPOINTMENTS } from '~/data'
 
 const VIEWS = {
   CALENDAR: 'CALENDAR',
@@ -140,18 +140,24 @@ export default component$(() => {
           <>
             <Calendar />
             <ul class="flex flex-col gap-4">
-              {FAKE_DATA.map((task) => {
+              {FAKE_APPOINTMENTS.map((task) => {
                 return (
                   <>
                     <li
                       key={task.id}
-                      class="flex gap-4 bg-green-200 max-w-[600px] flex-col p-4 rounded-md"
+                      class="flex gap-4 bg-primaryLight max-w-[600px] flex-col p-4 rounded-md"
                     >
                       <p>{task.title}</p>
                       <p>{task.date}</p>
-                      <p>
-                        {task.timeStart} - {task.timeEnd}
-                      </p>
+                      {task.fullDay ? (
+                        <p>Full day</p>
+                      ) : (
+                        <>
+                          <p>
+                            {task.timeStart} - {task.timeEnd}
+                          </p>
+                        </>
+                      )}
                       <p>{task.category}</p>
 
                       <button onClick$={() => console.log(task)}>
