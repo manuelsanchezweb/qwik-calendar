@@ -10,6 +10,7 @@ export const Calendar = component$(() => {
 export const OldCalendar = component$(() => {
   useStyles$(styles)
 
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     const date = document.querySelector('.date'),
       daysContainer = document.querySelector('.days'),

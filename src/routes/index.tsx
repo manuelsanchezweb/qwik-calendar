@@ -1,9 +1,10 @@
-import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
+import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 import type { DocumentHead } from '@builder.io/qwik-city'
-import { Calendar } from '~/components/calendar'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
 import { IS_LOADING_FROM_BEGINNING } from '~/config'
+import { ListView } from '~/components/views/list-view'
+import { CalendarView } from '~/components/views/calendar-view'
 import { FAKE_APPOINTMENTS } from '~/data'
 
 const VIEWS = {
@@ -54,10 +55,15 @@ function CurrentMonthAndYear() {
   return <span>{`${month} ${year}`}</span>
 }
 
+const addTask = $(() => {
+  alert('Add task')
+})
+
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
   const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
 
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     // supabase.auth.getSession().then(({ data: { session } }) => {
     //   userSignal.value = session?.user ?? null
@@ -107,29 +113,30 @@ export default component$(() => {
               onClick$={() => (selectedView.value = VIEWS.CALENDAR)}
               class="transition-transform hover:scale-105 focus:scale-105"
             >
-              {selectedView.value === VIEWS.CALENDAR ? (
-                <IconManager
-                  icon="calendar-fill"
-                  classCustom="w-12 h-auto mb-1"
-                />
-              ) : (
-                <IconManager icon="calendar" classCustom="w-12 h-auto mb-1" />
-              )}
+              <IconManager
+                icon={
+                  selectedView.value === VIEWS.CALENDAR
+                    ? 'calendar-fill'
+                    : 'calendar'
+                }
+                classCustom="w-12 h-auto mb-1"
+              />
             </button>
             <button
               onClick$={() => (selectedView.value = VIEWS.LIST)}
               class="transition-transform hover:scale-105 focus:scale-105"
             >
-              {selectedView.value === VIEWS.LIST ? (
-                <IconManager icon="list-fill" classCustom="w-12 h-auto mb-1" />
-              ) : (
-                <IconManager icon="list" classCustom="w-12 h-auto mb-1" />
-              )}
+              <IconManager
+                icon={selectedView.value === VIEWS.LIST ? 'list-fill' : 'list'}
+                classCustom="w-12 h-auto mb-1"
+              />
             </button>
           </div>
 
-          <button class="transition-transform hover:scale-105 focus:scale-105">
-            {' '}
+          <button
+            onClick$={addTask}
+            class="transition-transform hover:scale-105 focus:scale-105"
+          >
             <IconManager icon="add" classCustom="w-12 h-auto" />
           </button>
         </div>
@@ -137,42 +144,9 @@ export default component$(() => {
         <span>Selected view: {selectedView.value}</span>
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <>
-            <Calendar />
-            <ul class="flex flex-col gap-4">
-              {FAKE_APPOINTMENTS.map((task) => {
-                return (
-                  <>
-                    <li
-                      key={task.id}
-                      class="flex gap-4 bg-primaryLight max-w-[600px] flex-col p-4 rounded-md"
-                    >
-                      <p>{task.title}</p>
-                      <p>{task.date}</p>
-                      {task.fullDay ? (
-                        <p>Full day</p>
-                      ) : (
-                        <>
-                          <p>
-                            {task.timeStart} - {task.timeEnd}
-                          </p>
-                        </>
-                      )}
-                      <p>{task.category}</p>
-
-                      <button onClick$={() => console.log(task)}>
-                        <IconManager icon="edit" classCustom="w-6 h-auto" />
-                      </button>
-                    </li>
-                  </>
-                )
-              })}
-            </ul>
-          </>
+          <CalendarView appointments={FAKE_APPOINTMENTS} />
         ) : (
-          <div class="flex flex-col gap-4">
-            <p>Liste</p>
-          </div>
+          <ListView appointments={FAKE_APPOINTMENTS} />
         )}
       </>
     </>
