@@ -1,19 +1,15 @@
 import { component$, useSignal } from '@builder.io/qwik'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { type ActionStore, Form } from '@builder.io/qwik-city'
-
 const IS_DEBUG_ACTIVE = false
 
 export const Debug = component$(
   ({
     users,
     appointments,
-    action,
   }: {
     users: IUser[]
     appointments: IAppointment[]
-    action: ActionStore<any, any, any>
   }) => {
     const isDebugOpened = useSignal(IS_DEBUG_ACTIVE)
 
@@ -72,11 +68,6 @@ export const Debug = component$(
             </tbody>
           </table>
         </div>
-        <Form action={action}>
-          <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
-            Create random appointent for tomorrow
-          </button>
-        </Form>
       </div>
     ) : (
       <button

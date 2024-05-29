@@ -47,7 +47,6 @@ export async function deleteUser(id: SelectUser['id']) {
  * @param data The appointment data
  */
 export async function createAppointment(data: InsertAppointment) {
-  console.log('creating appointment', data)
   await db.insert(appointmentsTable).values(data)
 }
 
