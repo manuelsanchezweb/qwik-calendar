@@ -32,3 +32,5 @@ export const VIEWS = {
 
 export type ViewsType = typeof VIEWS
 export type ViewKeys = ViewsType[keyof ViewsType]
+
+export const APP_VERSION = import.meta.env.PUBLIC_APP_VERSION as string
