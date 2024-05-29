@@ -19,7 +19,6 @@ import {
 } from '~/utils/functions'
 import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
-import { getUserById } from '~/db/queries'
 // import { db } from '~/db/db'
 // import * as schema from '~/db/schema'
 

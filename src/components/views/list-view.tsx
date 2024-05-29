@@ -1,5 +1,4 @@
 import { component$ } from '@builder.io/qwik'
-import { getUserById } from '~/db/queries'
 import { IconManager } from '~/icons/icon-manager'
 import { type IAppointment } from '~/types/types'
 import { getFormattedDate } from '~/utils/functions'
