@@ -1,4 +1,7 @@
 import type { Day, Month } from '~/types/types'
+import { version } from '../../package.json'
+
+export const APP_VERSION = version
 
 export const months: Month[] = [
   'January',
@@ -32,5 +35,3 @@ export const VIEWS = {
 
 export type ViewsType = typeof VIEWS
 export type ViewKeys = ViewsType[keyof ViewsType]
-
-export const APP_VERSION = import.meta.env.PUBLIC_APP_VERSION as string
