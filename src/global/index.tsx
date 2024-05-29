@@ -3,7 +3,6 @@ import { globalAction$ } from '@builder.io/qwik-city'
 import { db } from '~/db/db'
 import * as schema from '~/db/schema'
 
-// TODO: fix and find out why when this is active there is build server error
 export const useAddAppointment = globalAction$(async () => {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)

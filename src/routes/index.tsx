@@ -3,7 +3,6 @@ import {
   type RequestEventBase,
   routeLoader$,
   type DocumentHead,
-  routeAction$,
 } from '@builder.io/qwik-city'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
@@ -19,27 +18,8 @@ import {
 } from '~/utils/functions'
 import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
-// import { db } from '~/db/db'
-// import * as schema from '~/db/schema'
 
-export const useTestAction = routeAction$(async () => {
-  // TODO: fix this --> we have an issue with dotenv not recognizing the .env file
-  // db.insert(schema.appointmentsTable).values({
-  //   title: 'Random appointment',
-  //   date: '2024-10-01',
-  //   time_start: '09:00',
-  //   time_end: '10:00',
-  //   full_day: 0,
-  //   category: 'random',
-  //   created_by: 1,
-  // })
-
-  console.log('Test action')
-
-  return {
-    success: true,
-  }
-})
+import { useAddAppointment } from '~/global'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -62,7 +42,7 @@ const addTask = $(() => {
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
   const selectedView = useSignal<ViewKeys>(VIEWS.LIST)
-  const action = useTestAction()
+  const action = useAddAppointment()
 
   const items = useUsersAndAppointments()
   const { users, appointments } = items.value
