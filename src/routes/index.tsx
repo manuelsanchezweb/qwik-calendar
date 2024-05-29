@@ -140,17 +140,45 @@ export default component$(() => {
           <ListView appointments={appointments} />
         )}
       </main>
-      <footer>Version {APP_VERSION}</footer>
+      <footer class="my-6 text-center">Version {APP_VERSION}</footer>
     </>
   )
 })
 
 export const head: DocumentHead = {
-  title: 'Calendar App con Qwik',
+  title: 'Calendar App with Qwik',
   meta: [
     {
       name: 'description',
-      content: 'Crea una app de calendario compartida con Qwik!',
+      content: 'Collaborative calendar app with Qwik',
+    },
+    {
+      name: 'keywords',
+      content: 'time management, shared time management app, calendar app',
+    },
+    {
+      name: 'author',
+      content: 'manuelsanchezweb',
+    },
+    {
+      name: 'og:image',
+      content: 'https://qwik-calendar.vercel.app/thumbnail.png',
+    },
+    {
+      name: 'twitter:image',
+      content: 'https://qwik-calendar.vercel.app/thumbnail.png',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: 'Calendar App with Qwik',
+    },
+    {
+      name: 'twitter:description',
+      content: 'Collaborative calendar app with Qwik',
     },
   ],
 }
