@@ -141,7 +141,7 @@ export default component$(() => {
           </button>
         </div>
 
-        <span>Selected view: {selectedView.value}</span>
+
 
         {selectedView.value === VIEWS.CALENDAR ? (
           <CalendarView appointments={FAKE_APPOINTMENTS} />
