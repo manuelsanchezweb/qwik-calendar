@@ -3,7 +3,6 @@ import {
   type RequestEventBase,
   routeLoader$,
   type DocumentHead,
-  Form,
   routeAction$,
 } from '@builder.io/qwik-city'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
@@ -154,8 +153,6 @@ export default component$(() => {
             <IconManager icon="add" classCustom="w-12 h-auto" />
           </button>
         </div>
-
-
 
         {selectedView.value === VIEWS.CALENDAR ? (
           <CalendarView appointments={appointments} />
