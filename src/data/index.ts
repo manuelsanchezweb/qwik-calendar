@@ -36,4 +36,22 @@ export const FAKE_APPOINTMENTS: Array<Appointment> = [
     fullDay: true,
     category: 'Leisure',
   },
+  {
+    id: 4,
+    title: 'Programming',
+    date: '2024-12-31T23:59:59.999Z',
+    timeStart: '10:00',
+    timeEnd: '11:00',
+    fullDay: false,
+    category: 'Education',
+  },
+  {
+    id: 5,
+    title: 'Video Games',
+    date: '2024-12-30T23:59:59.999Z',
+    timeStart: '10:00',
+    timeEnd: '11:00',
+    fullDay: false,
+    category: 'Leisure',
+  },
 ]
