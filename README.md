@@ -39,8 +39,8 @@ turso db tokens create <<nameofdb>>
 We will store this info in our `.env` like this:
 
 ````node
-TURSO_CONNECTION_URL=libsql... (you will find this one in the Turso settings of your db)
-TURSO_AUTH_TOKEN=<<generatedcode>>
+VITE_TURSO_CONNECTION_URL=libsql... (you will find this one in the Turso settings of your db)
+VITE_TURSO_AUTH_TOKEN=<<generatedcode>>
 ```
 
 You can after that generate a migration to check how it looks like and then run the migration
