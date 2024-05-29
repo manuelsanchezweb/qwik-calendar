@@ -45,6 +45,9 @@ export const ListView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {sortedTasks.map((task, idx) => {
+                // TODO: to improve with db logic
+                const author = task.createdBy === 1 ? 'Manuel' : 'Finn'
+
                 const showDate =
                   idx === 0 || sortedTasks[idx - 1].date !== task.date
 
@@ -65,7 +68,10 @@ export const ListView = component$(
                             <h3 class="font-bold text-text text-lg">
                               {task.title}
                             </h3>
-                            <h4 class="text-primary font-semibold"> Manuel </h4>
+                            <h4 class="text-primary font-semibold">
+                              {' '}
+                              {author}{' '}
+                            </h4>
                           </div>
 
                           <div class="text-xl text-text w-fit text-end text-nowrap">
