@@ -82,6 +82,36 @@ const main = async () => {
         category: 'work',
         created_by: 1,
       },
+      {
+        id: 6,
+        title: 'Go out with the dog',
+        date: '2024-05-29',
+        time_start: '15:00',
+        time_end: '19:00',
+        full_day: 0,
+        category: 'work',
+        created_by: 1,
+      },
+      {
+        id: 7,
+        title: 'Do my homework',
+        date: '2024-05-29',
+        time_start: '18:30',
+        time_end: '19:00',
+        full_day: 0,
+        category: 'work',
+        created_by: 1,
+      },
+      {
+        id: 8,
+        title: 'Fix Code',
+        date: '2024-10-01',
+        time_start: '8:30',
+        time_end: '11:00',
+        full_day: 0,
+        category: 'work',
+        created_by: 1,
+      },
     ])
 
     console.log('Seeding finished')
