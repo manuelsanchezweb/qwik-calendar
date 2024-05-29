@@ -98,10 +98,10 @@ export default component$(() => {
       <main class="py-12">
         {/* <Navigation userSignal={userSignal.value} /> */}
         {/* Active Date + Today Button */}
-        <Debug users={users} appointments={appointments} />
-        <Form action={action}>
+        <Debug action={action} users={users} appointments={appointments} />
+        {/* <Form action={action}>
           <button>Submit me</button>
-        </Form>
+        </Form> */}
         {/* <Form action={action}>
           <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
             Create random appointent for tomorrow
