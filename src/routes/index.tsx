@@ -3,6 +3,8 @@ import {
   type RequestEventBase,
   routeLoader$,
   type DocumentHead,
+  Form,
+  routeAction$,
 } from '@builder.io/qwik-city'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
@@ -18,6 +20,27 @@ import {
 } from '~/utils/functions'
 import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
+// import { db } from '~/db/db'
+// import * as schema from '~/db/schema'
+
+export const useTestAction = routeAction$(async () => {
+  // TODO: fix this --> we have an issue with dotenv not recognizing the .env file
+  // db.insert(schema.appointmentsTable).values({
+  //   title: 'Random appointment',
+  //   date: '2024-10-01',
+  //   time_start: '09:00',
+  //   time_end: '10:00',
+  //   full_day: 0,
+  //   category: 'random',
+  //   created_by: 1,
+  // })
+
+  console.log('Test action')
+
+  return {
+    success: true,
+  }
+})
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -39,7 +62,8 @@ const addTask = $(() => {
 
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
-  const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
+  const selectedView = useSignal<ViewKeys>(VIEWS.LIST)
+  const action = useTestAction()
 
   const items = useUsersAndAppointments()
   const { users, appointments } = items.value
@@ -74,7 +98,15 @@ export default component$(() => {
       <main class="py-12">
         {/* <Navigation userSignal={userSignal.value} /> */}
         {/* Active Date + Today Button */}
-        <Debug users={users} appointments={appointments} />
+        <Debug action={action} users={users} appointments={appointments} />
+        {/* <Form action={action}>
+          <button>Submit me</button>
+        </Form> */}
+        {/* <Form action={action}>
+          <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
+            Create random appointent for tomorrow
+          </button>
+        </Form> */}
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <div class="text-primary text-8xl">{getCurrentDay()}</div>
