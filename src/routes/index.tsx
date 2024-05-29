@@ -16,7 +16,7 @@ import {
   getCurrentMonthAndYear,
   getDayName,
 } from '~/utils/functions'
-import { VIEWS, type ViewKeys } from '~/constants/constants'
+import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
 export const useUsersAndAppointments = routeLoader$(
@@ -70,66 +70,69 @@ export default component$(() => {
   if (isLoading.value) return <LoadingScreen />
 
   return (
-    <main class="py-12">
-      {/* <Navigation userSignal={userSignal.value} /> */}
-      {/* Active Date + Today Button */}
-      <Debug users={users} appointments={appointments} />
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-2">
-          <div class="text-primary text-8xl">{getCurrentDay()}</div>
-          <div class="flex flex-col text-3xl">
-            <span>{getDayName()}</span>
-            <span>{getCurrentMonthAndYear()}</span>
+    <>
+      <main class="py-12">
+        {/* <Navigation userSignal={userSignal.value} /> */}
+        {/* Active Date + Today Button */}
+        <Debug users={users} appointments={appointments} />
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <div class="text-primary text-8xl">{getCurrentDay()}</div>
+            <div class="flex flex-col text-3xl">
+              <span>{getDayName()}</span>
+              <span>{getCurrentMonthAndYear()}</span>
+            </div>
           </div>
-        </div>
-        <button class="btn" onClick$={() => alert('Hoy')}>
-          Today
-        </button>
-      </div>
-
-      {/* Filter Buttons + Add Button  */}
-      <div class="flex justify-between items-center bg-grayBrandLight py-6 px-4 rounded-md my-6">
-        <div class="flex gap-2 items-center">
-          <button
-            onClick$={() => (selectedView.value = VIEWS.CALENDAR)}
-            class="transition-transform hover:scale-105 focus:scale-105"
-          >
-            <IconManager
-              icon={
-                selectedView.value === VIEWS.CALENDAR
-                  ? 'calendar-fill'
-                  : 'calendar'
-              }
-              classCustom="w-12 h-auto mb-1"
-            />
-          </button>
-          <button
-            onClick$={() => (selectedView.value = VIEWS.LIST)}
-            class="transition-transform hover:scale-105 focus:scale-105"
-          >
-            <IconManager
-              icon={selectedView.value === VIEWS.LIST ? 'list-fill' : 'list'}
-              classCustom="w-12 h-auto mb-1"
-            />
+          <button class="btn" onClick$={() => alert('Hoy')}>
+            Today
           </button>
         </div>
 
-        <button
-          onClick$={addTask}
-          class="transition-transform hover:scale-105 focus:scale-105"
-        >
-          <IconManager icon="add" classCustom="w-12 h-auto" />
-        </button>
-      </div>
+        {/* Filter Buttons + Add Button  */}
+        <div class="flex justify-between items-center bg-grayBrandLight py-6 px-4 rounded-md my-6">
+          <div class="flex gap-2 items-center">
+            <button
+              onClick$={() => (selectedView.value = VIEWS.CALENDAR)}
+              class="transition-transform hover:scale-105 focus:scale-105"
+            >
+              <IconManager
+                icon={
+                  selectedView.value === VIEWS.CALENDAR
+                    ? 'calendar-fill'
+                    : 'calendar'
+                }
+                classCustom="w-12 h-auto mb-1"
+              />
+            </button>
+            <button
+              onClick$={() => (selectedView.value = VIEWS.LIST)}
+              class="transition-transform hover:scale-105 focus:scale-105"
+            >
+              <IconManager
+                icon={selectedView.value === VIEWS.LIST ? 'list-fill' : 'list'}
+                classCustom="w-12 h-auto mb-1"
+              />
+            </button>
+          </div>
 
-      <span>Selected view: {selectedView.value}</span>
+          <button
+            onClick$={addTask}
+            class="transition-transform hover:scale-105 focus:scale-105"
+          >
+            <IconManager icon="add" classCustom="w-12 h-auto" />
+          </button>
+        </div>
 
-      {selectedView.value === VIEWS.CALENDAR ? (
-        <CalendarView appointments={appointments} />
-      ) : (
-        <ListView appointments={appointments} />
-      )}
-    </main>
+        <span>Selected view: {selectedView.value}</span>
+
+        {selectedView.value === VIEWS.CALENDAR ? (
+          <CalendarView appointments={appointments} />
+        ) : (
+          <ListView appointments={appointments} />
+        )}
+      </main>
+      <footer>Version {APP_VERSION}</footer>
+    </>
   )
 })
 

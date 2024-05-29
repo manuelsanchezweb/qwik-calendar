@@ -1,4 +1,7 @@
 import type { Day, Month } from '~/types/types'
+import { version } from '../../package.json'
+
+export const APP_VERSION = version
 
 export const months: Month[] = [
   'January',
