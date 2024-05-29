@@ -1,0 +1,19 @@
+//////////////////////////
+These are the incomplete things we could already improve
+//////////////////////////
+
+//////////////////////////
+These are the violations:
+//////////////////////////
+
+- Violation rule: html-has-lang
+html-has-lang
+<html> element must have a lang attribute
+Impact: serious
+<html>
+
+- Violation rule: meta-viewport
+meta-viewport
+Zooming and scaling must not be disabled
+Impact: critical
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, viewport-fit=cover">

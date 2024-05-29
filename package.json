@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
-    "test-a11y:local": "node scripts/test-accessibility.js --local",
-    "test-a11y:live": "node scripts/test-accessibility.js --live",
+    "test-a11y:local": "node scripts/test-accessibility.mjs --local",
+    "test-a11y:live": "node scripts/test-accessibility.mjs --live",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@builder.io/qwik": "1.5.5",
     "@builder.io/qwik-city": "latest",
+    "@playwright/test": "^1.44.1",
     "@types/better-sqlite3": "^7.6.10",
     "@types/eslint": "7.28.0",
     "@types/node": "^20.12.12",
