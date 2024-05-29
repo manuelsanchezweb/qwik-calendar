@@ -1,59 +1,60 @@
 import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
-import type { DocumentHead } from '@builder.io/qwik-city'
+import {
+  type RequestEventBase,
+  routeLoader$,
+  type DocumentHead,
+  Form,
+  routeAction$,
+} from '@builder.io/qwik-city'
 import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
 import { IS_LOADING_FROM_BEGINNING } from '~/config'
 import { ListView } from '~/components/views/list-view'
 import { CalendarView } from '~/components/views/calendar-view'
-import { FAKE_APPOINTMENTS } from '~/data'
+import { Debug } from '~/components/debug'
+import { tursoClient } from '~/lib/turso'
+import {
+  getCurrentDay,
+  getCurrentMonthAndYear,
+  getDayName,
+} from '~/utils/functions'
+import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
+import { type IAppointment, type IUser } from '~/types/types'
+// import { db } from '~/db/db'
+// import * as schema from '~/db/schema'
 
-const VIEWS = {
-  CALENDAR: 'CALENDAR',
-  LIST: 'LIST',
-} as const
+export const useTestAction = routeAction$(async () => {
+  // TODO: fix this --> we have an issue with dotenv not recognizing the .env file
+  // db.insert(schema.appointmentsTable).values({
+  //   title: 'Random appointment',
+  //   date: '2024-10-01',
+  //   time_start: '09:00',
+  //   time_end: '10:00',
+  //   full_day: 0,
+  //   category: 'random',
+  //   created_by: 1,
+  // })
 
-type ViewsType = typeof VIEWS
-type ViewKeys = ViewsType[keyof ViewsType]
+  console.log('Test action')
 
-function CurrentDay() {
-  const day = new Date().getDate()
-  return <div class="text-primary text-8xl">{day < 10 ? `0${day}` : day}</div>
-}
+  return {
+    success: true,
+  }
+})
 
-function DayName() {
-  const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
-  const dayName = days[new Date().getDay()]
-  return <span>{dayName}</span>
-}
+export const useUsersAndAppointments = routeLoader$(
+  async (requestEvent: RequestEventBase) => {
+    const client = tursoClient(requestEvent)
 
-function CurrentMonthAndYear() {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
-  const date = new Date()
-  const month = months[date.getMonth()]
-  const year = date.getFullYear()
-  return <span>{`${month} ${year}`}</span>
-}
+    const users = await client.execute('SELECT * FROM users')
+    const appointments = await client.execute('SELECT * FROM appointments')
+
+    return {
+      users: users.rows as unknown as IUser[],
+      appointments: appointments.rows as unknown as IAppointment[],
+    }
+  }
+)
 
 const addTask = $(() => {
   alert('Add task')
@@ -61,7 +62,11 @@ const addTask = $(() => {
 
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
-  const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
+  const selectedView = useSignal<ViewKeys>(VIEWS.LIST)
+  const action = useTestAction()
+
+  const items = useUsersAndAppointments()
+  const { users, appointments } = items.value
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
@@ -90,15 +95,24 @@ export default component$(() => {
 
   return (
     <>
-      <>
+      <main class="py-12">
         {/* <Navigation userSignal={userSignal.value} /> */}
         {/* Active Date + Today Button */}
+        <Debug action={action} users={users} appointments={appointments} />
+        {/* <Form action={action}>
+          <button>Submit me</button>
+        </Form> */}
+        {/* <Form action={action}>
+          <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
+            Create random appointent for tomorrow
+          </button>
+        </Form> */}
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
-            <div class="text-primary text-8xl">{CurrentDay()}</div>
+            <div class="text-primary text-8xl">{getCurrentDay()}</div>
             <div class="flex flex-col text-3xl">
-              <span>{DayName()}</span>
-              <span>{CurrentMonthAndYear()}</span>
+              <span>{getDayName()}</span>
+              <span>{getCurrentMonthAndYear()}</span>
             </div>
           </div>
           <button class="btn" onClick$={() => alert('Hoy')}>
@@ -144,11 +158,12 @@ export default component$(() => {
 
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <CalendarView appointments={FAKE_APPOINTMENTS} />
+          <CalendarView appointments={appointments} />
         ) : (
-          <ListView appointments={FAKE_APPOINTMENTS} />
+          <ListView appointments={appointments} />
         )}
-      </>
+      </main>
+      <footer>Version {APP_VERSION}</footer>
     </>
   )
 })
@@ -162,7 +177,3 @@ export const head: DocumentHead = {
     },
   ],
 }
-
-// <div class="min-w-full flex items-center justify-center">
-//   <AuthForm />
-// </div>

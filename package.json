@@ -1,15 +1,18 @@
 {
   "name": "collabender",
+  "version": "0.6.3",
   "description": "App with Routing built-in (recommended)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "private": true,
   "scripts": {
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
-    "test-a11y:local": "node scripts/test-accessibility.js --local",
-    "test-a11y:live": "node scripts/test-accessibility.js --live",
+    "test-a11y:local": "node scripts/test-accessibility.mjs --local",
+    "test-a11y:live": "node scripts/test-accessibility.mjs --live",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
@@ -21,18 +24,27 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik",
-    "update": "npx npm-check-updates -u && npm install"
+    "update": "npx npm-check-updates -u && npm install",
+    "db:studio": "bunx drizzle-kit studio",
+    "db:push": "bunx drizzle-kit push:pg",
+    "db:seed": "bun ./scripts/seed.ts",
+    "db:prod": "bun ./scripts/prod.ts",
+    "db:reset": "bun ./scripts/reset.ts",
+    "qwik": "qwik"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.5.5",
-    "@builder.io/qwik-city": "^1.5.5",
+    "@builder.io/qwik-city": "latest",
+    "@playwright/test": "^1.44.1",
+    "@types/better-sqlite3": "^7.6.10",
     "@types/eslint": "7.28.0",
     "@types/node": "^20.12.12",
     "@types/toastify-js": "^1.12.3",
     "@typescript-eslint/eslint-plugin": "7.11.0",
     "@typescript-eslint/parser": "7.11.0",
     "autoprefixer": "^10.4.19",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.21.4",
     "eslint": "8.57.0",
     "eslint-plugin-qwik": "1.5.5",
     "postcss": "^8.4.38",
@@ -46,8 +58,12 @@
   },
   "dependencies": {
     "@axe-core/playwright": "^4.9.1",
+    "@libsql/client": "latest",
     "@supabase/supabase-js": "^2.43.4",
+    "better-sqlite3": "^10.0.0",
+    "drizzle-orm": "^0.30.10",
     "playwright": "^1.44.1",
+    "sqlite3": "^5.1.7",
     "supabase-auth-helpers-qwik": "^0.0.3",
     "toastify-js": "^1.12.0"
   }

@@ -1,4 +1,7 @@
 import type { Day, Month } from '~/types/types'
+import { version } from '../../package.json'
+
+export const APP_VERSION = version
 
 export const months: Month[] = [
   'January',
@@ -25,7 +28,10 @@ export const days: Day[] = [
   'Sunday',
 ]
 
-export const KEYS = {
-  SUPABASE_PUBLIC_URL: import.meta.env.PUBLIC_SUPABASE_URL,
-  SUPABASE_PUBLIC_ANON_KEY: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-}
+export const VIEWS = {
+  CALENDAR: 'CALENDAR',
+  LIST: 'LIST',
+} as const
+
+export type ViewsType = typeof VIEWS
+export type ViewKeys = ViewsType[keyof ViewsType]
