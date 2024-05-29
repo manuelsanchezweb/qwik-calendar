@@ -25,3 +25,21 @@ export interface HelperText {
   error: boolean | null
   text: string | null
 }
+
+export interface IUser {
+  id: number
+  name: string
+  password: string
+}
+
+export interface IAppointment {
+  id: number
+  title: string
+  date: string
+  time_start: string
+  time_end: string
+  full_day: number
+  category: string
+  createdBy: number
+  createdAt: string
+}
