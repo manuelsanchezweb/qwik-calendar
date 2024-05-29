@@ -29,7 +29,7 @@ export async function getUserById(id: SelectUser['id']): Promise<
     password: string
   }>
 > {
-  return db.select().from(usersTable).where(eq(usersTable.id, id))
+  return await db.select().from(usersTable).where(eq(usersTable.id, id))
 }
 
 /**
