@@ -31,6 +31,7 @@ export const days: Day[] = [
 export const VIEWS = {
   CALENDAR: 'CALENDAR',
   LIST: 'LIST',
+  PAST_APPOINTMENTS: 'PAST_APPOINTMENTS',
 } as const
 
 export type ViewsType = typeof VIEWS
