@@ -20,6 +20,7 @@ import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
 import { useAddAppointment } from '~/global'
+import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -124,6 +125,19 @@ export default component$(() => {
                 classCustom="w-12 h-auto mb-1"
               />
             </button>
+            <button
+              onClick$={() => (selectedView.value = VIEWS.PAST_APPOINTMENTS)}
+              class="transition-transform hover:scale-105 focus:scale-105"
+            >
+              <IconManager
+                icon={
+                  selectedView.value === VIEWS.PAST_APPOINTMENTS
+                    ? 'history-fill'
+                    : 'history'
+                }
+                classCustom="w-12 h-auto mb-1"
+              />
+            </button>
           </div>
 
           <button
@@ -137,7 +151,19 @@ export default component$(() => {
         {selectedView.value === VIEWS.CALENDAR ? (
           <CalendarView appointments={appointments} />
         ) : (
+          ''
+        )}
+
+        {selectedView.value === VIEWS.LIST ? (
           <ListView appointments={appointments} />
+        ) : (
+          ''
+        )}
+
+        {selectedView.value === VIEWS.PAST_APPOINTMENTS ? (
+          <PastAppointmentsView appointments={appointments} />
+        ) : (
+          ''
         )}
       </main>
       <footer>Version {APP_VERSION}</footer>

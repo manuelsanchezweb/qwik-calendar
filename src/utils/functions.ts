@@ -50,3 +50,15 @@ export const getFormattedDate = (dateStr: string) => {
 
   return `${formattedDay}.${formattedMonth}.${year}`
 }
+
+/**
+ * Helper function to parse time string into a Date object.
+ * @param time - A string representing time in "HH:MM" format.
+ * @returns A Date object with the time set accordingly.
+ */
+export const parseTime = (time: string): Date => {
+  const [hours, minutes] = time.split(':').map(Number)
+  const date = new Date()
+  date.setHours(hours, minutes, 0, 0)
+  return date
+}
