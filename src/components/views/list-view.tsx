@@ -1,39 +1,61 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useComputed$ } from '@builder.io/qwik'
 import { type IAppointment } from '~/types/types'
-import  TaskCard from './taskCard'
+import TaskCard from './task-card'
+import { parseTime } from '~/utils/functions'
 
 export const ListView = component$(
   ({ appointments }: { appointments: Array<IAppointment> }) => {
+    const futureAppointments = useComputed$(() => {
+      if (appointments.length === 0) return []
+      // Filter by date --> only get appointments from today
+      let futureAppointments = appointments.filter(
+        (appointment) => new Date(appointment.date) >= new Date()
+      )
 
-    const sortedTasks = appointments.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-        return dateA.getTime() - dateB.getTime();
+      // Sort chronologically by date and time_start
+      futureAppointments = futureAppointments.sort((a, b) => {
+        const dateA = new Date(a.date)
+        const dateB = new Date(b.date)
+
+        if (dateA.getTime() !== dateB.getTime()) {
+          return dateA.getTime() - dateB.getTime()
+        } else if (a.full_day !== b.full_day) {
+          return a.full_day ? -1 : 1
+        } else {
+          const timeA = parseTime(a.time_start)
+          const timeB = parseTime(b.time_start)
+          return timeA.getTime() - timeB.getTime()
+        }
+      })
+
+      return futureAppointments
     })
-    
-
-  
-    // TODO: to improve later
-    // const sortedTasks = useComputed$((appointments) => {
-    //   const sortedTasks = appointments.sort((a, b) => {
-    //     const dateA = new Date(a.date)
-    //     const dateB = new Date(b.date)
-    //     return dateA.getTime() - dateB.getTime()
-    //   })
-    //   return sortedTasks
-    // })
 
     const today = new Date()
 
-    let taskToday = false
+    const todayAppointments = useComputed$(() => {
+      if (appointments.length === 0) return []
 
-    for (const task of appointments) {
-      const taskDate = new Date(task.date)
-      if (taskDate.toDateString() === today.toDateString()) {
-        taskToday = true
-        break
-      }
-    }
+      let todayAppointments = appointments.filter(
+        (appointment) =>
+          new Date(appointment.date).toDateString() === today.toDateString()
+      )
+
+      // Sort chronologically by full_day and time_start
+      todayAppointments = todayAppointments.sort((a, b) => {
+        if (a.full_day !== b.full_day) {
+          return a.full_day ? -1 : 1
+        } else {
+          const timeA = parseTime(a.time_start)
+          const timeB = parseTime(b.time_start)
+          return timeA.getTime() - timeB.getTime()
+        }
+      })
+
+      return todayAppointments
+    })
+
+    const taskToday = todayAppointments.value.length > 0
 
     return (
       <section
@@ -46,24 +68,25 @@ export const ListView = component$(
             <p>No appointments</p>
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
-              {sortedTasks.map((task, idx) => {
-  
-
+              {futureAppointments.value.map((task, idx) => {
                 const showDate =
-                  idx === 0 || sortedTasks[idx - 1].date !== task.date
+                  idx === 0 ||
+                  futureAppointments.value[idx - 1].date !== task.date
 
                 if (
                   today.toDateString() !== new Date(task.date).toDateString()
                 ) {
                   return (
-                    <TaskCard key={idx}
-                              showDate={showDate} 
-                              title={task.title} 
-                              date={task.date} 
-                              full_day={task.full_day}
-                              time_start={task.time_start} 
-                              time_end={task.time_end}
-                              createdBy={task.createdBy} />
+                    <TaskCard
+                      key={idx}
+                      showDate={showDate}
+                      title={task.title}
+                      date={task.date}
+                      full_day={task.full_day}
+                      time_start={task.time_start}
+                      time_end={task.time_end}
+                      createdBy={task.createdBy}
+                    />
                   )
                 }
               })}
@@ -78,23 +101,19 @@ export const ListView = component$(
             <p>No task today</p>
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
-              {sortedTasks.map((task, idx) => {
-                const showDate = false
-
-                if (
-                  today.toDateString() === new Date(task.date).toDateString()
-                ) {
-                  return (
-                    <TaskCard key={idx}
-                              showDate={showDate} 
-                              title={task.title} 
-                              date={task.date} 
-                              full_day={task.full_day}
-                              time_start={task.time_start} 
-                              time_end={task.time_end}
-                              createdBy={task.createdBy} />
-                  )
-                }
+              {todayAppointments.value.map((task, idx) => {
+                return (
+                  <TaskCard
+                    key={idx}
+                    showDate={false}
+                    title={task.title}
+                    date={task.date}
+                    full_day={task.full_day}
+                    time_start={task.time_start}
+                    time_end={task.time_end}
+                    createdBy={task.createdBy}
+                  />
+                )
               })}
             </ul>
           )}

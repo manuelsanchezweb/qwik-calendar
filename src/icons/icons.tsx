@@ -336,3 +336,103 @@ export const IconEdit = component$(
     )
   }
 )
+
+export const IconHistory = component$(
+  ({ classCustom }: { classCustom?: string }) => {
+    return (
+      <svg
+        class={classCustom}
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="32" height="32" fill="white" />
+        <path
+          d="M7 3H25C27.2091 3 29 4.79086 29 7V25C29 27.2091 27.2091 29 25 29H7C4.79086 29 3 27.2091 3 25V7C3 4.79086 4.79086 3 7 3Z"
+          stroke="#2B7277"
+          stroke-width="2"
+        />
+        <g clip-path="url(#clip0_1264_3488)">
+          <path
+            d="M16 12V16L18 18"
+            stroke="#2B7277"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7.95947 15.0925C8.16085 13.1155 9.08303 11.2819 10.55 9.94138C12.0171 8.6009 13.9263 7.84744 15.9133 7.82475C17.9004 7.80205 19.8263 8.51171 21.3236 9.81832C22.8208 11.1249 23.7846 12.937 24.0311 14.9089C24.2776 16.8808 23.7895 18.8744 22.66 20.5094C21.5304 22.1443 19.8384 23.3062 17.9069 23.7733C15.9754 24.2405 13.9395 23.9801 12.1876 23.042C10.4358 22.1039 9.09063 20.5537 8.4088 18.6871M7.95947 23.1804V18.6871H12.4527"
+            stroke="#2B7277"
+            stroke-width="1.79731"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_1264_3488">
+            <rect
+              width="24"
+              height="24"
+              fill="white"
+              transform="translate(4 4)"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+    )
+  }
+)
+
+export const IconHistoryFill = component$(
+  ({ classCustom }: { classCustom?: string }) => {
+    return (
+      <svg
+        class={classCustom}
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="32" height="32" fill="white" />
+        <path
+          d="M7 3H25C27.2091 3 29 4.79086 29 7V25C29 27.2091 27.2091 29 25 29H7C4.79086 29 3 27.2091 3 25V7C3 4.79086 4.79086 3 7 3Z"
+          stroke="#2B7277"
+          stroke-width="2"
+        />
+        <g clip-path="url(#clip0_1264_3497)">
+          <path
+            d="M4 7C4 5.34315 5.34315 4 7 4H25C26.6569 4 28 5.34315 28 7V25C28 26.6569 26.6569 28 25 28H7C5.34315 28 4 26.6569 4 25V7Z"
+            fill="#E5EDD8"
+          />
+          <path
+            d="M16 12V16L18 18"
+            stroke="#2B7277"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7.95947 15.0925C8.16085 13.1155 9.08303 11.2819 10.55 9.94138C12.0171 8.6009 13.9263 7.84744 15.9133 7.82475C17.9004 7.80205 19.8263 8.51171 21.3236 9.81832C22.8208 11.1249 23.7846 12.937 24.0311 14.9089C24.2776 16.8808 23.7895 18.8744 22.66 20.5094C21.5304 22.1443 19.8384 23.3062 17.9069 23.7733C15.9754 24.2405 13.9395 23.9801 12.1876 23.042C10.4358 22.1039 9.09063 20.5537 8.4088 18.6871M7.95947 23.1804V18.6871H12.4527"
+            stroke="#2B7277"
+            stroke-width="1.79731"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_1264_3497">
+            <rect
+              width="24"
+              height="24"
+              fill="white"
+              transform="translate(4 4)"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+    )
+  }
+)
