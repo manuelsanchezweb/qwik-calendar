@@ -36,6 +36,7 @@
     "@builder.io/qwik": "1.5.5",
     "@builder.io/qwik-city": "latest",
     "@playwright/test": "^1.44.1",
+    "@qwikdev/pwa": "^0.0.4",
     "@types/better-sqlite3": "^7.6.10",
     "@types/eslint": "7.28.0",
     "@types/node": "^20.12.12",
