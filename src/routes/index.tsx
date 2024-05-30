@@ -41,7 +41,7 @@ const addTask = $(() => {
 
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
-  const selectedView = useSignal<ViewKeys>(VIEWS.LIST)
+  const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
   const action = useAddAppointment()
 
   const items = useUsersAndAppointments()
