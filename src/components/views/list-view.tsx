@@ -5,6 +5,7 @@ import  TaskCard from './taskCard'
 export const ListView = component$(
   ({ appointments }: { appointments: Array<IAppointment> }) => {
 
+
     const sortedTasks = appointments.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);

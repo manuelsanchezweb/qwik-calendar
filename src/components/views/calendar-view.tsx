@@ -6,7 +6,7 @@ import { getMonth } from '~/utils/month'
 
 export const CalendarView = component$(() => {
 
-    const monthIndex = useSignal(0)
+    const monthIndex = useSignal(dayjs().month())
     const currentMonth = useSignal(noSerialize(getMonth()))
 
     useTask$(( { track }) => {
@@ -19,9 +19,9 @@ export const CalendarView = component$(() => {
     const handleNextMonth = $(() => monthIndex.value++)
       
     
-    const handleReset = $(() => 
+   /*const handleReset = $(() => 
       monthIndex.value = monthIndex.value === dayjs().month() ? monthIndex.value + Math.random() : dayjs().month() 
-    )
+    )*/
   
     return (
       <section title="calendar view" class="bg-grayBrandLight rounded-lg pb-6 px-12 w-2/3">

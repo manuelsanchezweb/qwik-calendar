@@ -1,11 +1,22 @@
-import { component$, noSerialize, useSignal } from "@builder.io/qwik"
+import { component$, noSerialize, useContextProvider, createContextId, useStore } from "@builder.io/qwik"
 import Day from './Day'
-import dayjs from 'dayjs'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { Fragment } from "@builder.io/qwik"
 
-const Calendar = component$(({currentMonth} : {currentMonth: Dayjs[][]}) => {
+interface DayStore {
+  day: string;
+} 
 
+export const SelectedDayContext = 
+    createContextId<DayStore>("selected-day")
+
+const Calendar = component$(({currentMonth} : {currentMonth: any}) => {
+
+      const dayStore: DayStore = useStore({
+        day: dayjs().format('YYYY-MM-DD'),
+      })
+
+      useContextProvider(SelectedDayContext, dayStore)
 
       return (
         <div class='grid border grid-cols-7 grid-rows-5'>
