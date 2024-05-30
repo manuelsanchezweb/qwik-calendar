@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
+import { $, component$, useSignal, useVisibleTask$} from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
@@ -39,6 +39,8 @@ const addTask = $(() => {
   alert('Add task')
 })
 
+
+
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
   const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
@@ -46,6 +48,7 @@ export default component$(() => {
 
   const items = useUsersAndAppointments()
   const { users, appointments } = items.value
+
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
@@ -71,6 +74,10 @@ export default component$(() => {
   })
 
   if (isLoading.value) return <LoadingScreen />
+
+
+
+
 
   return (
     <>
@@ -137,7 +144,7 @@ export default component$(() => {
         {selectedView.value === VIEWS.CALENDAR ? (
           <CalendarView appointments={appointments} />
         ) : (
-          <ListView appointments={appointments} />
+          <ListView appointments={appointments}/>
         )}
       </main>
       <footer>Version {APP_VERSION}</footer>

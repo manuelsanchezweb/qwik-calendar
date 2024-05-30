@@ -1,10 +1,8 @@
 import { component$ } from '@builder.io/qwik'
-import { type IAppointment } from '~/types/types'
+import type { IAppointment } from '~/types/types'
 import  TaskCard from './taskCard'
 
-export const ListView = component$(
-  ({ appointments }: { appointments: Array<IAppointment> }) => {
-
+export const ListView = component$(({appointments}: {appointments: Array<IAppointment>}) => {
 
     const sortedTasks = appointments.sort((a, b) => {
       const dateA = new Date(a.date);
