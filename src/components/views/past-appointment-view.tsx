@@ -56,7 +56,7 @@ export const PastAppointmentsView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {pastAppointments.value.map((task, idx) => {
-                const author = getAuthorByTaskId(task.user_id, users)
+                const author = getAuthorByTaskId(task.created_by!, users)
 
                 const showDate =
                   idx === 0 ||

@@ -75,7 +75,7 @@ export const ListView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {futureAppointments.value.map((task, idx) => {
-                const author = getAuthorByTaskId(task.user_id, users)
+                const author = getAuthorByTaskId(task.created_by!, users)
 
                 const showDate =
                   idx === 0 ||
@@ -111,7 +111,7 @@ export const ListView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {todayAppointments.value.map((task, idx) => {
-                const author = getAuthorByTaskId(task.user_id, users)
+                const author = getAuthorByTaskId(task.created_by!, users)
 
                 return (
                   <TaskCard
