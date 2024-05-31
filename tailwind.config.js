@@ -13,6 +13,7 @@ module.exports = {
         accent: '#0b3460',
         grayBrand: '#999999',
         grayBrandLight: '#fafafa',
+        grayBrandMiddle: '#D9D9D9',
         text: '#050505',
         // ...
       },

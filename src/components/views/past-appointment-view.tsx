@@ -1,10 +1,16 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
-import { type IAppointment } from '~/types/types'
+import { type IUser, type IAppointment } from '~/types/types'
 import TaskCard from './task-card'
-import { parseTime } from '~/utils/functions'
+import { getAuthorByTaskId, parseTime } from '~/utils/functions'
 
 export const PastAppointmentsView = component$(
-  ({ appointments }: { appointments: Array<IAppointment> }) => {
+  ({
+    appointments,
+    users,
+  }: {
+    appointments: Array<IAppointment>
+    users: Array<IUser>
+  }) => {
     const pastAppointments = useComputed$(() => {
       if (appointments.length === 0) return []
       // Filter by date --> only get appointments before today but sort them chronologically from most recent to oldest
@@ -50,6 +56,8 @@ export const PastAppointmentsView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {pastAppointments.value.map((task, idx) => {
+                const author = getAuthorByTaskId(task.created_by!, users)
+
                 const showDate =
                   idx === 0 ||
                   pastAppointments.value[idx - 1].date !== task.date
@@ -58,12 +66,13 @@ export const PastAppointmentsView = component$(
                   <TaskCard
                     key={idx}
                     showDate={showDate}
+                    showEdit={false}
                     title={task.title}
                     date={task.date}
                     full_day={task.full_day}
                     time_start={task.time_start}
                     time_end={task.time_end}
-                    createdBy={task.createdBy}
+                    created_by={author}
                   />
                 )
               })}

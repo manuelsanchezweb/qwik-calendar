@@ -1,10 +1,16 @@
 import { component$, useComputed$ } from '@builder.io/qwik'
-import type { IAppointment } from '~/types/types'
+import { type IUser, type IAppointment } from '~/types/types'
 import TaskCard from './task-card'
-import { parseTime } from '~/utils/functions'
+import { getAuthorByTaskId, parseTime } from '~/utils/functions'
 
 export const ListView = component$(
-  ({ appointments }: { appointments: Array<IAppointment> }) => {
+  ({
+    appointments,
+    users,
+  }: {
+    appointments: Array<IAppointment>
+    users: Array<IUser>
+  }) => {
     const futureAppointments = useComputed$(() => {
       if (appointments.length === 0) return []
       // Filter by date --> only get appointments from today
@@ -60,15 +66,17 @@ export const ListView = component$(
     return (
       <section
         title="List view"
-        class="flex flex-col lg:flex-row  lg:gap-12 w-full"
+        class="flex flex-col-reverse lg:flex-row lg:gap-12 w-full"
       >
-        <div class="flex flex-col order-last lg:order-first justify-start py-12 px-10 bg-grayBrandLight w-full rounded-lg my-6">
+        <div class="flex flex-col justify-start py-12 px-10 bg-grayBrandLight w-full rounded-lg my-6">
           <h2 class="text-4xl font-bold text-text">All Events</h2>
           {appointments.length === 0 ? (
             <p>No appointments</p>
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {futureAppointments.value.map((task, idx) => {
+                const author = getAuthorByTaskId(task.created_by!, users)
+
                 const showDate =
                   idx === 0 ||
                   futureAppointments.value[idx - 1].date !== task.date
@@ -80,12 +88,13 @@ export const ListView = component$(
                     <TaskCard
                       key={idx}
                       showDate={showDate}
+                      showEdit={true}
                       title={task.title}
                       date={task.date}
                       full_day={task.full_day}
                       time_start={task.time_start}
                       time_end={task.time_end}
-                      createdBy={task.createdBy}
+                      created_by={author}
                     />
                   )
                 }
@@ -102,8 +111,11 @@ export const ListView = component$(
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {todayAppointments.value.map((task, idx) => {
+                const author = getAuthorByTaskId(task.created_by!, users)
+
                 return (
                   <TaskCard
+                    showEdit={true}
                     key={idx}
                     showDate={false}
                     title={task.title}
@@ -111,7 +123,7 @@ export const ListView = component$(
                     full_day={task.full_day}
                     time_start={task.time_start}
                     time_end={task.time_end}
-                    createdBy={task.createdBy}
+                    created_by={author}
                   />
                 )
               })}

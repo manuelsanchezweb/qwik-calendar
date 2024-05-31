@@ -1,37 +1,49 @@
-import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
+import { $, component$, useSignal } from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
   type DocumentHead,
 } from '@builder.io/qwik-city'
-import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
-import { IS_LOADING_FROM_BEGINNING } from '~/config'
 import { ListView } from '~/components/views/list-view'
 import { CalendarView } from '~/components/views/calendar-view'
 import { Debug } from '~/components/debug'
-import { tursoClient } from '~/lib/turso'
 import {
   getCurrentDay,
   getCurrentMonthAndYear,
   getDayName,
 } from '~/utils/functions'
-import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
+import { VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { useAddAppointment } from '~/global'
 import { PastAppointmentsView } from '~/components/views/past-appointment-view'
+import { ViewsButtons } from '~/components/views-buttons/views-buttons'
+import { getAppointments, getUsers } from '~/db/queries'
+import { LoginForm } from '~/components/login-form/login-form'
+import { Footer } from '~/components/footer/footer'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
-    const client = tursoClient(requestEvent)
+    // Get the view from the URL
+    const viewFromURL = new URLSearchParams(requestEvent.query)
+    const initialView = viewFromURL.get('view')?.toUpperCase() as ViewKeys
 
-    const users = await client.execute('SELECT * FROM users')
-    const appointments = await client.execute('SELECT * FROM appointments')
+    // Get the users and appointments
+    const users = await getUsers()
+    const appointments = await getAppointments()
+
+    // Check if user is authorized and who is the user
+    const isAuthorized =
+      requestEvent.cookie.get('collabender-rules')?.value === '1' ?? false
+    const userName =
+      requestEvent.cookie.get('collabender-user')?.value ?? 'Undefined'
 
     return {
-      users: users.rows as unknown as IUser[],
-      appointments: appointments.rows as unknown as IAppointment[],
+      users: users as IUser[],
+      appointments: appointments as IAppointment[],
+      initialView,
+      isAuthorized,
+      userName,
     }
   }
 )
@@ -41,52 +53,18 @@ const addTask = $(() => {
 })
 
 export default component$(() => {
-  const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
-  const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
-  const action = useAddAppointment()
-
   const items = useUsersAndAppointments()
-  const { users, appointments } = items.value
+  const { users, appointments, initialView, isAuthorized, userName } =
+    items.value
 
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {
-    // supabase.auth.getSession().then(({ data: { session } }) => {
-    //   userSignal.value = session?.user ?? null
-    // })
+  const selectedView = useSignal<ViewKeys>(initialView)
 
-    setTimeout(() => {
-      isLoading.value = false
-    }, 2000)
-
-    // const {
-    //   data: { subscription: authListener },
-    // } = supabase.auth.onAuthStateChange((_, session) => {
-    //   const currentUser = session?.user
-    //   userSignal.value = currentUser ?? null
-    //   isLoading.value = false
-    // })
-
-    // return () => {
-    //   authListener?.unsubscribe()
-    // }
-  })
-
-  if (isLoading.value) return <LoadingScreen />
+  if (!isAuthorized) return <LoginForm />
 
   return (
     <>
       <main class="py-12">
-        {/* <Navigation userSignal={userSignal.value} /> */}
-        {/* Active Date + Today Button */}
-        <Debug action={action} users={users} appointments={appointments} />
-        {/* <Form action={action}>
-          <button>Submit me</button>
-        </Form> */}
-        {/* <Form action={action}>
-          <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
-            Create random appointent for tomorrow
-          </button>
-        </Form> */}
+        <Debug users={users} appointments={appointments} />
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <div class="text-primary text-8xl">{getCurrentDay()}</div>
@@ -98,47 +76,14 @@ export default component$(() => {
           <button class="btn" onClick$={() => alert('Hoy')}>
             Today
           </button>
+          <small class="text-primary text-lg">
+            Howdy, <span class="font-bold">{userName}</span>! 👋
+          </small>
         </div>
 
         {/* Filter Buttons + Add Button  */}
         <div class="flex justify-between items-center bg-grayBrandLight py-6 px-4 rounded-md my-6">
-          <div class="flex gap-2 items-center">
-            <button
-              onClick$={() => (selectedView.value = VIEWS.CALENDAR)}
-              class="transition-transform hover:scale-105 focus:scale-105"
-            >
-              <IconManager
-                icon={
-                  selectedView.value === VIEWS.CALENDAR
-                    ? 'calendar-fill'
-                    : 'calendar'
-                }
-                classCustom="w-12 h-auto mb-1"
-              />
-            </button>
-            <button
-              onClick$={() => (selectedView.value = VIEWS.LIST)}
-              class="transition-transform hover:scale-105 focus:scale-105"
-            >
-              <IconManager
-                icon={selectedView.value === VIEWS.LIST ? 'list-fill' : 'list'}
-                classCustom="w-12 h-auto mb-1"
-              />
-            </button>
-            <button
-              onClick$={() => (selectedView.value = VIEWS.PAST_APPOINTMENTS)}
-              class="transition-transform hover:scale-105 focus:scale-105"
-            >
-              <IconManager
-                icon={
-                  selectedView.value === VIEWS.PAST_APPOINTMENTS
-                    ? 'history-fill'
-                    : 'history'
-                }
-                classCustom="w-12 h-auto mb-1"
-              />
-            </button>
-          </div>
+          <ViewsButtons selectedView={selectedView} />
 
           <button
             onClick$={addTask}
@@ -155,18 +100,18 @@ export default component$(() => {
         )}
 
         {selectedView.value === VIEWS.LIST ? (
-          <ListView appointments={appointments} />
+          <ListView appointments={appointments} users={users} />
         ) : (
           ''
         )}
 
         {selectedView.value === VIEWS.PAST_APPOINTMENTS ? (
-          <PastAppointmentsView appointments={appointments} />
+          <PastAppointmentsView appointments={appointments} users={users} />
         ) : (
           ''
         )}
       </main>
-      <footer>Version {APP_VERSION}</footer>
+      <Footer />
     </>
   )
 })

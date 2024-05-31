@@ -1,3 +1,5 @@
+import { type IUser } from '~/types/types'
+
 export function getCurrentMonthAndYear() {
   const months = [
     'January',
@@ -61,4 +63,31 @@ export const parseTime = (time: string): Date => {
   const date = new Date()
   date.setHours(hours, minutes, 0, 0)
   return date
+}
+
+export const getAuthorByTaskId = (id: number, userList: IUser[]) => {
+  const author = userList.find((user) => user.id === id)
+  return author ? author.name : 'Unknown'
+}
+
+export const getUserByPassword = (password: string, userList: IUser[]) => {
+  const user = userList.find((user) => user.password === password)
+  return user
+}
+
+export const getListAvailablePasswords = (userList: IUser[]) => {
+  return userList.map((user) => user.password)
+}
+
+export const deleteAllCookies = () => {
+  const cookies = document.cookie.split(';')
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i]
+    const eqPos = cookie.indexOf('=')
+    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`
+  }
+
+  window.location.reload()
 }

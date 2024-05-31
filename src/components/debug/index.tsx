@@ -1,7 +1,9 @@
 import { component$, useSignal } from '@builder.io/qwik'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { Form, type ActionStore } from '@builder.io/qwik-city'
+import { Form } from '@builder.io/qwik-city'
+import { deleteAllCookies } from '~/utils/functions'
+import { useAddAppointment } from '~/global'
 
 const IS_DEBUG_ACTIVE = false
 
@@ -9,12 +11,11 @@ export const Debug = component$(
   ({
     users,
     appointments,
-    action,
   }: {
     users: IUser[]
     appointments: IAppointment[]
-    action: ActionStore<any, any, any>
   }) => {
+    const action = useAddAppointment()
     const isDebugOpened = useSignal(IS_DEBUG_ACTIVE)
 
     return isDebugOpened.value ? (
@@ -77,6 +78,13 @@ export const Debug = component$(
             Create random appointent for tomorrow
           </button>
         </Form>
+
+        <button
+          class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary"
+          onClick$={() => deleteAllCookies()}
+        >
+          Delete all cookies
+        </button>
       </div>
     ) : (
       <button

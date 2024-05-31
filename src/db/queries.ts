@@ -9,6 +9,18 @@ import {
 } from './schema'
 
 // User queries
+/**
+ * Get all the users from the database
+ */
+export async function getUsers(): Promise<
+  Array<{
+    id: number
+    name: string
+    password: string
+  }>
+> {
+  return await db.select().from(usersTable)
+}
 
 /**
  * Create a new user
@@ -41,6 +53,12 @@ export async function deleteUser(id: SelectUser['id']) {
 }
 
 // Appointment queries
+/**
+ * Get all the appointments from the database
+ */
+export async function getAppointments() {
+  return await db.select().from(appointmentsTable)
+}
 
 /**
  * Create a new appointment
