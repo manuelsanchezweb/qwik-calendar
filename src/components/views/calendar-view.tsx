@@ -8,10 +8,12 @@ import {
 import Calendar from './calendar'
 import dayjs from 'dayjs'
 import { getMonth } from '~/utils/month'
-import type { IAppointment } from '~/types/types'
+import type { IAppointment, DayStore } from '~/types/types'
 
-export const CalendarView = component$(
-  ({ appointments }: { appointments: Array<IAppointment> }) => {
+
+
+export const CalendarView = component$(({appointments, selectedDay}: {appointments: Array<IAppointment>, selectedDay: DayStore}) => {
+
     const monthIndex = useSignal(dayjs().month())
     const currentMonth = useSignal(noSerialize(getMonth()))
 
@@ -55,24 +57,18 @@ export const CalendarView = component$(
               </span>
             </button>
           </header>
+        </div>
 
-          <ul class="grid grid-cols-7 text-center text-2xl pb-6 ">
-            <li>Su</li>
-            <li>Mo</li>
-            <li>Tu</li>
-            <li>We</li>
-            <li>Th</li>
-            <li>Fr</li>
-            <li>Sa</li>
-          </ul>
-          <Calendar
-            currentMonth={currentMonth.value}
-            appointments={appointments}
-          />
-        </div>
-        <div>
-          <h2>Tasks from selected day in the calendar...</h2>
-        </div>
+        <ul class="grid grid-cols-7 text-center text-2xl pb-6 ">
+          <li>Su</li>
+          <li>Mo</li>
+          <li>Tu</li>
+          <li>We</li>
+          <li>Th</li>
+          <li>Fr</li>
+          <li>Sa</li>
+        </ul>
+        <Calendar currentMonth={currentMonth.value} appointments={appointments} selectedDay={selectedDay}/> 
       </section>
     )
   }

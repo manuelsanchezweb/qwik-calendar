@@ -1,31 +1,26 @@
-import { component$, noSerialize, useContextProvider, createContextId, useStore } from "@builder.io/qwik"
+import { component$, noSerialize, type Store } from "@builder.io/qwik"
 import Day from './Day'
-import dayjs from 'dayjs'
 import { Fragment } from "@builder.io/qwik"
-import { type IAppointment } from "~/types/types";
+import { type IAppointment, type DayStore } from "~/types/types";
+import  { type Dayjs } from 'dayjs'
 
-interface DayStore {
-  day: string;
-} 
 
-export const SelectedDayContext = 
-    createContextId<DayStore>("selected-day")
+interface CalendarProps {
+  currentMonth: any
+  appointments: Array<IAppointment>
+  selectedDay: DayStore
+}
 
-const Calendar = component$(({currentMonth, appointments} : {currentMonth: any, appointments: Array<IAppointment>}) => {
 
-      const dayStore: DayStore = useStore({
-        day: dayjs().format('YYYY-MM-DD'),
-      })
-      
+const Calendar = component$(({currentMonth, appointments, selectedDay} : CalendarProps) => {
 
-      useContextProvider(SelectedDayContext, dayStore)
-
+ 
       return (
         <div class='grid border grid-cols-7 grid-rows-5'>
-            {currentMonth.map((row: any[], id: number) => (
+            {currentMonth.map((row: Dayjs[], id: number) => (
                 <Fragment key={id}>
-                {row.map((day, idx) => (               
-                    <Day day={noSerialize(day)} key={idx} appointments={appointments}/>
+                {row.map((day: any, idx) => (               
+                    <Day day={noSerialize(day)} key={idx} appointments={appointments} selectedDay={selectedDay}/>
                 ))}
                 </Fragment>
             ))}

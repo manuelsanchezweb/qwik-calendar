@@ -1,25 +1,26 @@
-import { component$, useContext, $ } from "@builder.io/qwik"
+import { component$, $ } from "@builder.io/qwik"
 import type { Dayjs } from 'dayjs'
-import { SelectedDayContext } from "./calendar"
-import type { IAppointment } from "~/types/types"
+
+import type { IAppointment, DayStore } from "~/types/types"
 
 
-const Day = component$(({day, appointments}: {day: Dayjs, appointments: Array<IAppointment>}) => {
+const Day = component$(({day, appointments, selectedDay}: {day: Dayjs, appointments: Array<IAppointment>, selectedDay: DayStore}) => {
     const thisDay = day.format('YYYY-MM-DD')
-    const selectedDay = useContext(SelectedDayContext)
-
-    const setSelectedDay = $(() => {
-       selectedDay.day = thisDay 
-    })
-
- 
     const hasTask = appointments.some(event => event.date === day.format('YYYY-MM-DD'));
     
-    
+
+    selectedDay.day = '2024-03-02'
+    console.log(selectedDay.day)
+    console.log(thisDay)
+
+
+    const setSelectedDay = $(() => {
+        selectedDay.day = thisDay
+    })
 
   return (
     <div class={`flex relative justify-center aspect-square items-center hover:border-primary transition duration-300 ease-in-out border ${thisDay === selectedDay.day ? 'border-primary bg-primaryLight' :  'border-gray-200 bg-white'} cursor-pointer px-6 py-6`} 
-            onClick$={() => setSelectedDay()}>
+         onClick$={() => setSelectedDay()}>
 
         <p class="w-fit text-text text-xl">
             {day.format('DD').replace('0', '')}

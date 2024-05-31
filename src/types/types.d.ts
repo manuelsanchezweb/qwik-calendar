@@ -44,3 +44,7 @@ export interface IAppointment {
   user_id?: number
   created_by?: number
 }
+
+export interface DayStore{
+  day: string;
+}

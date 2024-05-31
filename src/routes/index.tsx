@@ -1,4 +1,10 @@
-import { $, component$, useSignal } from '@builder.io/qwik'
+import {
+  $,
+  useStore,
+  component$,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
@@ -14,8 +20,8 @@ import {
   getDayName,
 } from '~/utils/functions'
 import { VIEWS, type ViewKeys } from '~/constants/constants'
-import { type IAppointment, type IUser } from '~/types/types'
-
+import { type IAppointment, type IUser, type DayStore } from '~/types/types'
+import dayjs from 'dayjs'
 import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 import { ViewsButtons } from '~/components/views-buttons/views-buttons'
 import { getAppointments, getUsers } from '~/db/queries'
@@ -61,6 +67,12 @@ export default component$(() => {
 
   if (!isAuthorized) return <LoginForm />
 
+  const selectedDay: DayStore = useStore({
+    day: dayjs().format('YYYY-MM-DD'),
+  })
+
+  console.log(selectedDay)
+
   return (
     <>
       <main class="py-12">
@@ -94,7 +106,7 @@ export default component$(() => {
         </div>
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <CalendarView appointments={appointments} />
+          <CalendarView appointments={appointments} selectedDay={selectedDay} />
         ) : (
           ''
         )}
