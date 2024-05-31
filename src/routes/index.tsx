@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useVisibleTask$} from '@builder.io/qwik'
+import { $, useStore, component$, useSignal, useVisibleTask$} from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
@@ -17,8 +17,8 @@ import {
   getDayName,
 } from '~/utils/functions'
 import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
-import { type IAppointment, type IUser } from '~/types/types'
-
+import { type IAppointment, type IUser, type DayStore } from '~/types/types'
+import dayjs from 'dayjs'
 import { useAddAppointment } from '~/global'
 
 export const useUsersAndAppointments = routeLoader$(
@@ -76,8 +76,11 @@ export default component$(() => {
   if (isLoading.value) return <LoadingScreen />
 
 
+  const selectedDay: DayStore = useStore({
+    day: dayjs().format('YYYY-MM-DD'),
+  })
 
-
+  console.log(selectedDay)
 
   return (
     <>
@@ -142,7 +145,7 @@ export default component$(() => {
         </div>
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <CalendarView appointments={appointments} />
+          <CalendarView appointments={appointments} selectedDay={selectedDay}/>
         ) : (
           <ListView appointments={appointments}/>
         )}

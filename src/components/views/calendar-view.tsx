@@ -2,11 +2,11 @@ import { component$, useSignal, $, noSerialize, useTask$ } from '@builder.io/qwi
 import  Calendar  from './calendar'
 import dayjs from 'dayjs'
 import { getMonth } from '~/utils/month'
-import type { IAppointment } from '~/types/types'
+import type { IAppointment, DayStore } from '~/types/types'
 
 
 
-export const CalendarView = component$(({appointments}: {appointments: Array<IAppointment>}) => {
+export const CalendarView = component$(({appointments, selectedDay}: {appointments: Array<IAppointment>, selectedDay: DayStore}) => {
 
     const monthIndex = useSignal(dayjs().month())
     const currentMonth = useSignal(noSerialize(getMonth()))
@@ -56,7 +56,7 @@ export const CalendarView = component$(({appointments}: {appointments: Array<IAp
           <li>Fr</li>
           <li>Sa</li>
         </ul>
-        <Calendar currentMonth={currentMonth.value} appointments={appointments}/> 
+        <Calendar currentMonth={currentMonth.value} appointments={appointments} selectedDay={selectedDay}/> 
       </section>
       
     )

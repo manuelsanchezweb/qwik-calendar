@@ -43,3 +43,7 @@ export interface IAppointment {
   createdBy: number
   createdAt: string
 }
+
+export interface DayStore{
+  day: string;
+}
