@@ -1,12 +1,10 @@
-import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik'
+import { $, component$, useSignal } from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
   type DocumentHead,
 } from '@builder.io/qwik-city'
-import { LoadingScreen } from '~/components/loading-screen/loading-screen'
 import { IconManager } from '~/icons/icon-manager'
-import { IS_LOADING_FROM_BEGINNING } from '~/config'
 import { ListView } from '~/components/views/list-view'
 import { CalendarView } from '~/components/views/calendar-view'
 import { Debug } from '~/components/debug'
@@ -15,13 +13,15 @@ import {
   getCurrentMonthAndYear,
   getDayName,
 } from '~/utils/functions'
-import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
+import { VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
 import { useAddAppointment } from '~/global'
 import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 import { ViewsButtons } from '~/components/views-buttons/views-buttons'
 import { getAppointments, getUsers } from '~/db/queries'
+import { LoginForm } from '~/components/login-form/login-form'
+import { Footer } from '~/components/footer/footer'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -33,10 +33,18 @@ export const useUsersAndAppointments = routeLoader$(
     const users = await getUsers()
     const appointments = await getAppointments()
 
+    // Check if user is authorized and who is the user
+    const isAuthorized =
+      requestEvent.cookie.get('collabender-rules')?.value === '1' ?? false
+    const userName =
+      requestEvent.cookie.get('collabender-user')?.value ?? 'Undefined'
+
     return {
       users: users as IUser[],
       appointments: appointments as IAppointment[],
       initialView,
+      isAuthorized,
+      userName,
     }
   }
 )
@@ -47,51 +55,18 @@ const addTask = $(() => {
 
 export default component$(() => {
   const items = useUsersAndAppointments()
-  const { users, appointments, initialView } = items.value
+  const { users, appointments, initialView, isAuthorized, userName } =
+    items.value
 
-  const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
   const selectedView = useSignal<ViewKeys>(initialView)
   const action = useAddAppointment()
 
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {
-    // supabase.auth.getSession().then(({ data: { session } }) => {
-    //   userSignal.value = session?.user ?? null
-    // })
-
-    setTimeout(() => {
-      isLoading.value = false
-    }, 2000)
-
-    // const {
-    //   data: { subscription: authListener },
-    // } = supabase.auth.onAuthStateChange((_, session) => {
-    //   const currentUser = session?.user
-    //   userSignal.value = currentUser ?? null
-    //   isLoading.value = false
-    // })
-
-    // return () => {
-    //   authListener?.unsubscribe()
-    // }
-  })
-
-  if (isLoading.value) return <LoadingScreen />
+  if (!isAuthorized) return <LoginForm />
 
   return (
     <>
       <main class="py-12">
-        {/* <Navigation userSignal={userSignal.value} /> */}
-        {/* Active Date + Today Button */}
         <Debug action={action} users={users} appointments={appointments} />
-        {/* <Form action={action}>
-          <button>Submit me</button>
-        </Form> */}
-        {/* <Form action={action}>
-          <button class="border-black border-2 p-2 mb-2 bg-primaryLight hover:bg-primary focus:bg-primary">
-            Create random appointent for tomorrow
-          </button>
-        </Form> */}
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <div class="text-primary text-8xl">{getCurrentDay()}</div>
@@ -103,6 +78,9 @@ export default component$(() => {
           <button class="btn" onClick$={() => alert('Hoy')}>
             Today
           </button>
+          <small class="text-primary text-lg">
+            Howdy, <span class="font-bold">{userName}</span>! 👋
+          </small>
         </div>
 
         {/* Filter Buttons + Add Button  */}
@@ -135,7 +113,7 @@ export default component$(() => {
           ''
         )}
       </main>
-      <footer>Version {APP_VERSION}</footer>
+      <Footer />
     </>
   )
 })
