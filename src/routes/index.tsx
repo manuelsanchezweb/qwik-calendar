@@ -20,6 +20,7 @@ import { APP_VERSION, VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser, type DayStore } from '~/types/types'
 import dayjs from 'dayjs'
 import { useAddAppointment } from '~/global'
+import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -39,8 +40,6 @@ const addTask = $(() => {
   alert('Add task')
 })
 
-
-
 export default component$(() => {
   const isLoading = useSignal(IS_LOADING_FROM_BEGINNING)
   const selectedView = useSignal<ViewKeys>(VIEWS.CALENDAR)
@@ -48,7 +47,6 @@ export default component$(() => {
 
   const items = useUsersAndAppointments()
   const { users, appointments } = items.value
-
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
@@ -134,6 +132,19 @@ export default component$(() => {
                 classCustom="w-12 h-auto mb-1"
               />
             </button>
+            <button
+              onClick$={() => (selectedView.value = VIEWS.PAST_APPOINTMENTS)}
+              class="transition-transform hover:scale-105 focus:scale-105"
+            >
+              <IconManager
+                icon={
+                  selectedView.value === VIEWS.PAST_APPOINTMENTS
+                    ? 'history-fill'
+                    : 'history'
+                }
+                classCustom="w-12 h-auto mb-1"
+              />
+            </button>
           </div>
 
           <button
@@ -147,7 +158,19 @@ export default component$(() => {
         {selectedView.value === VIEWS.CALENDAR ? (
           <CalendarView appointments={appointments} selectedDay={selectedDay}/>
         ) : (
-          <ListView appointments={appointments}/>
+          ''
+        )}
+
+        {selectedView.value === VIEWS.LIST ? (
+          <ListView appointments={appointments} />
+        ) : (
+          ''
+        )}
+
+        {selectedView.value === VIEWS.PAST_APPOINTMENTS ? (
+          <PastAppointmentsView appointments={appointments} />
+        ) : (
+          ''
         )}
       </main>
       <footer>Version {APP_VERSION}</footer>

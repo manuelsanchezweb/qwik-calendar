@@ -5,6 +5,8 @@ import {
   IconCalenderFill,
   IconEdit,
   IconGithub,
+  IconHistory,
+  IconHistoryFill,
   IconList,
   IconListFill,
   IconUser,
@@ -22,6 +24,8 @@ type IconType =
   | 'list-fill'
   | 'arrow-left'
   | 'arrow-right'
+  | 'history'
+  | 'history-fill'
 
 interface IconManagerProps {
   icon?: IconType
@@ -47,6 +51,10 @@ export const IconManager = component$<IconManagerProps>(
         return <IconAdd classCustom={classCustom} />
       case 'edit':
         return <IconEdit classCustom={classCustom} />
+      case 'history':
+        return <IconHistory classCustom={classCustom} />
+      case 'history-fill':
+        return <IconHistoryFill classCustom={classCustom} />
       default:
         return <IconAdd classCustom={classCustom} />
     }
