@@ -10,10 +10,14 @@ import dayjs from 'dayjs'
 import { getMonth } from '~/utils/month'
 import type { IAppointment, DayStore } from '~/types/types'
 
-
-
-export const CalendarView = component$(({appointments, selectedDay}: {appointments: Array<IAppointment>, selectedDay: DayStore}) => {
-
+export const CalendarView = component$(
+  ({
+    appointments,
+    selectedDay,
+  }: {
+    appointments: Array<IAppointment>
+    selectedDay: DayStore
+  }) => {
     const monthIndex = useSignal(dayjs().month())
     const currentMonth = useSignal(noSerialize(getMonth()))
 
@@ -25,10 +29,6 @@ export const CalendarView = component$(({appointments, selectedDay}: {appointmen
     const handlePrevMonth = $(() => monthIndex.value--)
 
     const handleNextMonth = $(() => monthIndex.value++)
-
-    /*const handleReset = $(() => 
-      monthIndex.value = monthIndex.value === dayjs().month() ? monthIndex.value + Math.random() : dayjs().month() 
-    )*/
 
     return (
       <section
@@ -57,18 +57,21 @@ export const CalendarView = component$(({appointments, selectedDay}: {appointmen
               </span>
             </button>
           </header>
+          <ul class="grid grid-cols-7 text-center text-2xl pb-6 ">
+            <li>Su</li>
+            <li>Mo</li>
+            <li>Tu</li>
+            <li>We</li>
+            <li>Th</li>
+            <li>Fr</li>
+            <li>Sa</li>
+          </ul>
+          <Calendar
+            currentMonth={currentMonth.value}
+            appointments={appointments}
+            selectedDay={selectedDay}
+          />
         </div>
-
-        <ul class="grid grid-cols-7 text-center text-2xl pb-6 ">
-          <li>Su</li>
-          <li>Mo</li>
-          <li>Tu</li>
-          <li>We</li>
-          <li>Th</li>
-          <li>Fr</li>
-          <li>Sa</li>
-        </ul>
-        <Calendar currentMonth={currentMonth.value} appointments={appointments} selectedDay={selectedDay}/> 
       </section>
     )
   }
