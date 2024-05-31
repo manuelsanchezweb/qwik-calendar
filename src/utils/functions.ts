@@ -1,3 +1,5 @@
+import { type IUser } from '~/types/types'
+
 export function getCurrentMonthAndYear() {
   const months = [
     'January',
@@ -61,4 +63,9 @@ export const parseTime = (time: string): Date => {
   const date = new Date()
   date.setHours(hours, minutes, 0, 0)
   return date
+}
+
+export const getAuthorByTaskId = (id: number, userList: IUser[]) => {
+  const author = userList.find((user) => user.id === id)
+  return author ? author.name : 'Unknown'
 }

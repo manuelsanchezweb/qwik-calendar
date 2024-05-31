@@ -40,6 +40,6 @@ export interface IAppointment {
   time_end: string
   full_day: number
   category: string
-  createdBy: number
-  createdAt: string
+  user_id: number
+  created_at: string
 }
