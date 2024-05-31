@@ -16,7 +16,6 @@ import {
 import { VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { useAddAppointment } from '~/global'
 import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 import { ViewsButtons } from '~/components/views-buttons/views-buttons'
 import { getAppointments, getUsers } from '~/db/queries'
@@ -59,14 +58,13 @@ export default component$(() => {
     items.value
 
   const selectedView = useSignal<ViewKeys>(initialView)
-  const action = useAddAppointment()
 
   if (!isAuthorized) return <LoginForm />
 
   return (
     <>
       <main class="py-12">
-        <Debug action={action} users={users} appointments={appointments} />
+        <Debug users={users} appointments={appointments} />
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <div class="text-primary text-8xl">{getCurrentDay()}</div>
