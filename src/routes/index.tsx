@@ -59,14 +59,13 @@ export default component$(() => {
     items.value
 
   const selectedView = useSignal<ViewKeys>(initialView)
-  const action = useAddAppointment()
 
   if (!isAuthorized) return <LoginForm />
 
   return (
     <>
       <main class="py-12">
-        <Debug action={action} users={users} appointments={appointments} />
+        <Debug users={users} appointments={appointments} />
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <div class="text-primary text-8xl">{getCurrentDay()}</div>
