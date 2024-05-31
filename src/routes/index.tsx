@@ -155,13 +155,13 @@ export default component$(() => {
         )}
 
         {selectedView.value === VIEWS.LIST ? (
-          <ListView appointments={appointments} />
+          <ListView appointments={appointments} users={users} />
         ) : (
           ''
         )}
 
         {selectedView.value === VIEWS.PAST_APPOINTMENTS ? (
-          <PastAppointmentsView appointments={appointments} />
+          <PastAppointmentsView appointments={appointments} users={users} />
         ) : (
           ''
         )}
