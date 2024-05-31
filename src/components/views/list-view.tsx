@@ -66,9 +66,9 @@ export const ListView = component$(
     return (
       <section
         title="List view"
-        class="flex flex-col lg:flex-row  lg:gap-12 w-full"
+        class="flex flex-col-reverse lg:flex-row lg:gap-12 w-full"
       >
-        <div class="flex flex-col order-last lg:order-first justify-start py-12 px-10 bg-grayBrandLight w-full rounded-lg my-6">
+        <div class="flex flex-col justify-start py-12 px-10 bg-grayBrandLight w-full rounded-lg my-6">
           <h2 class="text-4xl font-bold text-text">All Events</h2>
           {appointments.length === 0 ? (
             <p>No appointments</p>

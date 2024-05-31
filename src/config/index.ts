@@ -7,12 +7,12 @@ export const APP_USERS = [
   {
     id: 1,
     name: 'Manuel',
-    password: 'zeitmolamucho',
+    password: 'zeitrules',
   },
   {
     id: 2,
     name: 'Finn',
-    password: 'wsmola',
+    password: 'wsrules',
   },
 ]
 
