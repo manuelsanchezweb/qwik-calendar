@@ -21,6 +21,7 @@ import { ViewsButtons } from '~/components/views-buttons/views-buttons'
 import { getAppointments, getUsers } from '~/db/queries'
 import { LoginForm } from '~/components/login-form/login-form'
 import { Footer } from '~/components/footer/footer'
+import { AddAppointmentModal } from '~/components/add-appointment-modal/add-appointment-modal'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -34,7 +35,7 @@ export const useUsersAndAppointments = routeLoader$(
 
     // Check if user is authorized and who is the user
     const isAuthorized =
-      requestEvent.cookie.get('collabender-rules')?.value === '1' ?? false
+      requestEvent.cookie.get('collabender-rules')?.value === '1'
     const userName =
       requestEvent.cookie.get('collabender-user')?.value ?? 'Undefined'
 
@@ -48,16 +49,18 @@ export const useUsersAndAppointments = routeLoader$(
   }
 )
 
-const addTask = $(() => {
-  alert('Add task')
-})
-
 export default component$(() => {
   const items = useUsersAndAppointments()
   const { users, appointments, initialView, isAuthorized, userName } =
     items.value
 
   const selectedView = useSignal<ViewKeys>(initialView)
+  const isAddAppointmentModalOpen = useSignal(false)
+
+  const openAddAppointmentModal = $(() => {
+    isAddAppointmentModalOpen.value = true
+    document.body.style.overflow = 'hidden'
+  })
 
   if (!isAuthorized) return <LoginForm />
 
@@ -66,19 +69,23 @@ export default component$(() => {
       <main class="py-12">
         <Debug users={users} appointments={appointments} />
         <div class="flex justify-between items-center">
-          <div class="flex items-center gap-2">
-            <div class="text-primary text-8xl">{getCurrentDay()}</div>
-            <div class="flex flex-col text-3xl">
+          <div class="flex md:items-center gap-2">
+            <div class="text-primary text-5xl md:text-8xl">
+              {getCurrentDay()}
+            </div>
+            <div class="flex flex-col md:text-3xl">
               <span>{getDayName()}</span>
               <span>{getCurrentMonthAndYear()}</span>
             </div>
           </div>
-          <button class="btn" onClick$={() => alert('Hoy')}>
-            Today
-          </button>
-          <small class="text-primary text-lg">
-            Howdy, <span class="font-bold">{userName}</span>! 👋
-          </small>
+          <div class="flex flex-col gap-2 md:flex-row md:items-center">
+            <button class="btn hidden md:block" onClick$={() => alert('Hoy')}>
+              Today
+            </button>
+            <small class="text-primary text-lg">
+              Howdy, <span class="font-bold">{userName}</span>! 👋
+            </small>
+          </div>
         </div>
 
         {/* Filter Buttons + Add Button  */}
@@ -86,7 +93,7 @@ export default component$(() => {
           <ViewsButtons selectedView={selectedView} />
 
           <button
-            onClick$={addTask}
+            onClick$={openAddAppointmentModal}
             class="transition-transform hover:scale-105 focus:scale-105"
           >
             <IconManager icon="add" classCustom="w-12 h-auto" />
@@ -107,6 +114,14 @@ export default component$(() => {
 
         {selectedView.value === VIEWS.PAST_APPOINTMENTS ? (
           <PastAppointmentsView appointments={appointments} users={users} />
+        ) : (
+          ''
+        )}
+
+        {isAddAppointmentModalOpen.value ? (
+          <AddAppointmentModal
+            isAddAppointmentModalOpen={isAddAppointmentModalOpen}
+          />
         ) : (
           ''
         )}
