@@ -16,7 +16,6 @@ import {
 import { VIEWS, type ViewKeys } from '~/constants/constants'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { useAddAppointment } from '~/global'
 import { PastAppointmentsView } from '~/components/views/past-appointment-view'
 import { ViewsButtons } from '~/components/views-buttons/views-buttons'
 import { getAppointments, getUsers } from '~/db/queries'

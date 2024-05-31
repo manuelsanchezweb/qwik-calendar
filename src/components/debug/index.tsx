@@ -1,7 +1,7 @@
 import { component$, useSignal } from '@builder.io/qwik'
 import { type IAppointment, type IUser } from '~/types/types'
 
-import { Form, type ActionStore } from '@builder.io/qwik-city'
+import { Form } from '@builder.io/qwik-city'
 import { deleteAllCookies } from '~/utils/functions'
 import { useAddAppointment } from '~/global'
 
