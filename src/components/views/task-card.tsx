@@ -27,7 +27,7 @@ export default component$((props: IProps) => {
           <div class="flex flex-col gap-1">
             <h3
               title={props.title}
-              class="font-bold text-text line-clamp-1 text-lg"
+              class="font-bold text-text md:line-clamp-1 text-lg"
             >
               {props.title}
             </h3>
