@@ -101,7 +101,7 @@ export default component$(() => {
         </div>
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <CalendarView appointments={appointments} />
+          <CalendarView appointments={appointments} users={users} />
         ) : (
           ''
         )}
