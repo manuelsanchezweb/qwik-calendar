@@ -84,6 +84,16 @@ const main = async () => {
         category: 'Fun',
         created_by: 1,
       },
+      {
+        id: 6,
+        title: 'Bring the computer to Martin',
+        date: '2024-06-04',
+        time_start: '16:00',
+        time_end: '18:00',
+        full_day: 0,
+        category: 'Fun',
+        created_by: 1,
+      },
     ])
 
     console.log('Seeding finished')
