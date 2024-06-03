@@ -1,4 +1,4 @@
-import { globalAction$ } from '@builder.io/qwik-city'
+import { globalAction$,  } from '@builder.io/qwik-city'
 import { APP_USERS } from '~/config'
 
 import { db } from '~/db/db'
@@ -49,6 +49,7 @@ export const useSubmitPassword = globalAction$(async (data, { cookie }) => {
 export const useAddAppointment = globalAction$(async (data, { cookie }) => {
   const isFullDay = data['full_day'] === 'on' ? 1 : 0
 
+
   const authorName = cookie.get('collabender-user')?.value
   const authorId = getIdByAuthorName(authorName as string, APP_USERS)
 
@@ -63,6 +64,7 @@ export const useAddAppointment = globalAction$(async (data, { cookie }) => {
     created_by: authorId,
   }
 
+  
   await db.insert(schema.appointmentsTable).values(appointment)
 
   return {

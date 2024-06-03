@@ -6,9 +6,11 @@ export const Calendar = component$(
   ({
     appointments,
     selectedDay,
+    isAddAppointmentModalOpen,
   }: {
     appointments: IAppointment[]
     selectedDay: Signal<Date>
+    isAddAppointmentModalOpen: Signal<boolean>
   }) => {
     const date = useSignal(new Date())
     const weeks = buildCalendar(date.value)
@@ -34,6 +36,62 @@ export const Calendar = component$(
         `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
       )
       window.history.pushState({}, '', url.toString())
+    })
+    
+
+
+    const checkSelectedDay = (day: any) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(selectedDay.value);
+    
+      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
+                                      selectedDate.getMonth() === currentDate.getMonth() &&
+                                      selectedDate.getFullYear() === currentDate.getFullYear();
+    
+      if (isSelectedDayCurrentDay) {
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() && 
+            day.year === selectedDate.getFullYear()) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() - 1 && 
+            day.year === selectedDate.getFullYear()) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    };
+
+    const openOnDoubleClick = $((day: any) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(selectedDay.value);
+    
+      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
+                                      selectedDate.getMonth() === currentDate.getMonth() &&
+                                      selectedDate.getFullYear() === currentDate.getFullYear();
+    
+      if (isSelectedDayCurrentDay) {
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() && 
+            day.year === selectedDate.getFullYear()) {
+          isAddAppointmentModalOpen.value = true
+        } else {
+          setSelectedDay(day);
+        }
+      } else {
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() - 1 && 
+            day.year === selectedDate.getFullYear()) {
+              isAddAppointmentModalOpen.value = true
+            } else {
+              setSelectedDay(day);
+        }
+      }
     })
 
     return (
@@ -93,15 +151,15 @@ export const Calendar = component$(
             {weeks.flat().map((day, index) => {
               const id = `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
               const hasTask = appointments.some((event) => event.date === id)
-
+              
               return (
                 <button
                   key={index}
                   data-id={id}
-                  onClick$={() => setSelectedDay(day)}
+                  onClick$={() => openOnDoubleClick(day)}
                   class={`flex relative justify-center hover:border-primary ease-in-out duration-100 transition aspect-square items-center cursor-pointer border
                     ${day.disabled ? 'bg-gray-100 pointer-events-none text-gray-400' : ''}
-                    ${day.day === selectedDay.value.getDate() && day.month === selectedDay.value.getMonth() - 1 && day.year === selectedDay.value.getFullYear() ? 'bg-primaryLight text-primary border-primary' : ''}`}
+                    ${checkSelectedDay(day) ? 'bg-primaryLight text-primary border-primary' : ''}`}
                 >
                   {day.day}
                   {hasTask ? (
