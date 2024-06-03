@@ -1,4 +1,5 @@
 export const IS_LOADING_FROM_BEGINNING = false
+export const IS_ADD_APPOINTMENT_MODAL_OPENED = false
 
 /**
  * List of users

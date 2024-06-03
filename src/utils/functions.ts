@@ -70,6 +70,11 @@ export const getAuthorByTaskId = (id: number, userList: IUser[]) => {
   return author ? author.name : 'Unknown'
 }
 
+export const getIdByAuthorName = (name: string, userList: IUser[]) => {
+  const author = userList.find((user) => user.name === name)
+  return author ? author.id : 0
+}
+
 export const getUserByPassword = (password: string, userList: IUser[]) => {
   const user = userList.find((user) => user.password === password)
   return user
