@@ -10,6 +10,13 @@ export const AddAppointmentModal = component$(
     isAddAppointmentModalOpen: Signal<boolean>
   }) => {
     const action = useAddAppointment()
+    // Default date for the date input comes form ?day on the url or today
+    const url = new URL(window.location.href)
+    const day = url.searchParams.get('day')
+
+    const defaultOptionForDate = day
+      ? day
+      : new Date().toISOString().split('T')[0]
 
     useOn(
       'click',
@@ -21,6 +28,14 @@ export const AddAppointmentModal = component$(
           isAddAppointmentModalOpen.value = false
           document.body.style.overflow = 'auto'
         }
+      })
+    )
+
+    useOn(
+      'submit',
+      $(() => {
+        isAddAppointmentModalOpen.value = false
+        document.body.style.overflow = 'auto'
       })
     )
 
@@ -69,12 +84,13 @@ export const AddAppointmentModal = component$(
               id="date"
               type="date"
               class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+              defaultValue={defaultOptionForDate}
             />
           </div>
 
           {/* time_start and time_end  */}
           <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex flex-col gap-2 mt-2 md:mt-8">
+            <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
               <label
                 for="time_start"
                 class=" text-text text-md md:text-lg font-semibold"
@@ -89,7 +105,7 @@ export const AddAppointmentModal = component$(
                 class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
               />
             </div>
-            <div class="flex flex-col gap-2 mt-2 md:mt-8">
+            <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
               <label
                 for="time_end"
                 class=" text-text text-md md:text-lg font-semibold"
@@ -153,7 +169,7 @@ export const AddAppointmentModal = component$(
                 Cancel
               </button>
               <button
-                class="btn bg-primary text-white mt-2 md:mt-8"
+                class="btn bg-primaryLight text-black mt-2 md:mt-8"
                 type="submit"
               >
                 Save Event

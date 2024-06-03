@@ -27,6 +27,13 @@ export const Calendar = component$(
 
     const setSelectedDay = $((day: CalendarDay) => {
       selectedDay.value = new Date(day.year, day.month + 1, day.day)
+      // add the ?day=2022-01-01 to the URL without removing the view from the user
+      const url = new URL(window.location.href)
+      url.searchParams.set(
+        'day',
+        `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+      )
+      window.history.pushState({}, '', url.toString())
     })
 
     return (

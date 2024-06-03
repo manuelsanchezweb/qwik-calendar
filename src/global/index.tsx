@@ -4,8 +4,11 @@ import { APP_USERS } from '~/config'
 import { db } from '~/db/db'
 import * as schema from '~/db/schema'
 import { type IUser } from '~/types/types'
-import { getListAvailablePasswords } from '~/utils/functions'
+import { getIdByAuthorName, getListAvailablePasswords } from '~/utils/functions'
 
+/**
+ * Action to submit the password and check if it is correct
+ */
 export const useSubmitPassword = globalAction$(async (data, { cookie }) => {
   const password = data['password'] as string
   const availablePasswords = getListAvailablePasswords(APP_USERS)
@@ -40,17 +43,24 @@ export const useSubmitPassword = globalAction$(async (data, { cookie }) => {
   }
 })
 
-export const useAddAppointment = globalAction$(async () => {
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
+/**
+ * Action to add an appointment
+ */
+export const useAddAppointment = globalAction$(async (data, { cookie }) => {
+  const isFullDay = data['full_day'] === 'on' ? 1 : 0
+
+  const authorName = cookie.get('collabender-user')?.value
+  const authorId = getIdByAuthorName(authorName as string, APP_USERS)
+
+  // TODO: Add validation for the date and time with zod
   const appointment = {
-    title: 'Random appointment',
-    date: tomorrow.toISOString().split('T')[0],
-    time_start: '09:00',
-    time_end: '10:00',
-    full_day: 0,
-    category: 'random',
-    created_by: 1,
+    title: data['title'] as string,
+    date: data['date'] as string,
+    time_start: data['time_start'] as string,
+    time_end: data['time_end'] as string,
+    full_day: isFullDay,
+    category: data['category'] as string,
+    created_by: authorId,
   }
 
   await db.insert(schema.appointmentsTable).values(appointment)

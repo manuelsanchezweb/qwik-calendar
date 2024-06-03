@@ -22,6 +22,7 @@ import { getAppointments, getUsers } from '~/db/queries'
 import { LoginForm } from '~/components/login-form/login-form'
 import { Footer } from '~/components/footer/footer'
 import { AddAppointmentModal } from '~/components/add-appointment-modal/add-appointment-modal'
+import { IS_ADD_APPOINTMENT_MODAL_OPENED } from '~/config'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -56,7 +57,7 @@ export default component$(() => {
     items.value
 
   const selectedView = useSignal<ViewKeys>(initialView)
-  const isAddAppointmentModalOpen = useSignal(false)
+  const isAddAppointmentModalOpen = useSignal(IS_ADD_APPOINTMENT_MODAL_OPENED)
 
   const openAddAppointmentModal = $(() => {
     isAddAppointmentModalOpen.value = true
