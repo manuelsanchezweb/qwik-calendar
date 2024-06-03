@@ -44,3 +44,10 @@ export interface IAppointment {
   user_id?: number
   created_by?: number
 }
+
+export interface CalendarDay {
+  day: number
+  month: number
+  year: number
+  disabled: boolean
+}
