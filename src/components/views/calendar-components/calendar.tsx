@@ -1,10 +1,4 @@
-import {
-  component$,
-  $,
-  useSignal,
-  type Signal,
-  useTask$,
-} from '@builder.io/qwik'
+import { component$, $, useSignal, type Signal } from '@builder.io/qwik'
 import type { IAppointment, CalendarDay } from '~/types/types'
 import { buildCalendar, getMonthName } from './calendar-functions'
 
