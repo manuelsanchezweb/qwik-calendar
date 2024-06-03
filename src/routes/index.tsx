@@ -27,7 +27,8 @@ export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
     // Get the view from the URL
     const viewFromURL = new URLSearchParams(requestEvent.query)
-    const initialView = viewFromURL.get('view')?.toUpperCase() as ViewKeys
+    let initialView = viewFromURL.get('view')?.toUpperCase() as ViewKeys
+    if (!initialView) initialView = VIEWS.CALENDAR
 
     // Get the users and appointments
     const users = await getUsers()
@@ -79,9 +80,6 @@ export default component$(() => {
             </div>
           </div>
           <div class="flex flex-col gap-2 md:flex-row md:items-center">
-            <button class="btn hidden md:block" onClick$={() => alert('Hoy')}>
-              Today
-            </button>
             <small class="text-primary text-lg">
               Howdy, <span class="font-bold">{userName}</span>! 👋
             </small>
