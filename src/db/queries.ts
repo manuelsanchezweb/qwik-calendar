@@ -74,3 +74,13 @@ export async function createAppointment(data: InsertAppointment) {
 export async function deleteAppointment(id: number) {
   await db.delete(appointmentsTable).where(eq(appointmentsTable.id, id))
 }
+
+/**
+ * Update an appointment by its ID
+ */
+export async function updateAppointment(id: number, data: InsertAppointment) {
+  await db
+    .update(appointmentsTable)
+    .set(data)
+    .where(eq(appointmentsTable.id, id))
+}

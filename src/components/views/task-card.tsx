@@ -46,16 +46,20 @@ export default component$((props: IProps) => {
         </div>
 
         {props.showEdit ? (
-          <button class="flex justify-end" 
-                  onClick$={$(() =>{props.isEditAppointmentModalOpen.value = true
-                                    props.editModalData.id = props.id
-                                    props.editModalData.title = props.title
-                                    props.editModalData.date = props.date
-                                    props.editModalData.start = props.time_start
-                                    props.editModalData.end = props.time_end
-                                    props.editModalData.fullDay = props.full_day
-                                    props.editModalData.category = props.category
-                  }) }>
+          <button
+            class="flex justify-end"
+            onClick$={$(() => {
+              // TODO: // make this more beautiful
+              props.isEditAppointmentModalOpen.value = true
+              props.editModalData.id = props.id
+              props.editModalData.title = props.title
+              props.editModalData.date = props.date
+              props.editModalData.time_start = props.time_start
+              props.editModalData.time_end = props.time_end
+              props.editModalData.full_day = props.full_day
+              props.editModalData.category = props.category
+            })}
+          >
             <IconManager icon="edit" classCustom="h-12 w-12" />
           </button>
         ) : (

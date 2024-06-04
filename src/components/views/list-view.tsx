@@ -8,12 +8,12 @@ export const ListView = component$(
     appointments,
     users,
     isEditAppointmentModalOpen,
-    editModalData
+    editModalData,
   }: {
     appointments: Array<IAppointment>
     users: Array<IUser>
     isEditAppointmentModalOpen: Signal<boolean>
-    editModalData: any
+    editModalData: IAppointment
   }) => {
     const futureAppointments = useComputed$(() => {
       if (appointments.length === 0) return []

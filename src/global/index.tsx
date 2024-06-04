@@ -1,8 +1,7 @@
-import { globalAction$,  } from '@builder.io/qwik-city'
+import { globalAction$ } from '@builder.io/qwik-city'
 import { APP_USERS } from '~/config'
 
-import { db } from '~/db/db'
-import * as schema from '~/db/schema'
+import { createAppointment, updateAppointment } from '~/db/queries'
 import { type IUser } from '~/types/types'
 import { getIdByAuthorName, getListAvailablePasswords } from '~/utils/functions'
 
@@ -49,7 +48,6 @@ export const useSubmitPassword = globalAction$(async (data, { cookie }) => {
 export const useAddAppointment = globalAction$(async (data, { cookie }) => {
   const isFullDay = data['full_day'] === 'on' ? 1 : 0
 
-
   const authorName = cookie.get('collabender-user')?.value
   const authorId = getIdByAuthorName(authorName as string, APP_USERS)
 
@@ -64,9 +62,34 @@ export const useAddAppointment = globalAction$(async (data, { cookie }) => {
     created_by: authorId,
   }
 
-  
-  await db.insert(schema.appointmentsTable).values(appointment)
+  await createAppointment(appointment)
 
+  return {
+    success: true,
+  }
+})
+
+/**
+ * Action to add an appointment
+ */
+export const useEditAppointment = globalAction$(async (data, { cookie }) => {
+  const isFullDay = data['full_day'] === 'on' ? 1 : 0
+
+  const authorName = cookie.get('collabender-user')?.value
+  const authorId = getIdByAuthorName(authorName as string, APP_USERS)
+
+  // TODO: Add validation for the date and time with zod
+  const newAppointment = {
+    title: data['title'] as string,
+    date: data['date'] as string,
+    time_start: data['time_start'] as string,
+    time_end: data['time_end'] as string,
+    full_day: isFullDay,
+    category: data['category'] as string,
+    created_by: authorId,
+  }
+
+  await updateAppointment(data['id'] as number, newAppointment)
   return {
     success: true,
   }
