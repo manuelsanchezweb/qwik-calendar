@@ -119,13 +119,19 @@ export const EditAppointmentModal = component$(
               >
                 Starts at
               </label>
-              <input
-                value={editModalData.time_start}
-                name="time_start"
-                id="time_start"
-                type="text"
-                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
-              />
+              <div class="relative">
+                <input
+                  value={editModalData.time_start}
+                  name="time_start"
+                  id="time_start"
+                  type="text"
+                  class={`w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 pointer-events-none text-grayBrand' : ''} `}
+                />
+                <IconManager
+                  icon="time-start"
+                  classCustom={`absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 text-primary pointer-events-none ${areInputsDisabled.value ? 'opacity-85 pointer-events-none !text-grayBrand' : ''} `}
+                />
+              </div>
             </div>
             <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
               <label
@@ -134,13 +140,19 @@ export const EditAppointmentModal = component$(
               >
                 Ends at
               </label>
-              <input
-                value={editModalData.time_end}
-                name="time_end"
-                id="time_end"
-                type="text"
-                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
-              />
+              <div class="relative">
+                <input
+                  value={editModalData.time_end}
+                  name="time_end"
+                  id="time_end"
+                  type="text"
+                  class={`w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 pointer-events-none text-grayBrand' : ''} `}
+                />
+                <IconManager
+                  icon="time-end"
+                  classCustom={`absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 text-primary pointer-events-none ${areInputsDisabled.value ? 'opacity-85 pointer-events-none !text-grayBrand' : ''} `}
+                />
+              </div>
             </div>
           </div>
 
