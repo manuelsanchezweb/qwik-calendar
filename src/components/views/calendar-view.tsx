@@ -10,12 +10,14 @@ export const CalendarView = component$(
     isAddAppointmentModalOpen,
     isEditAppointmentModalOpen,
     editModalData,
+    userName,
   }: {
     appointments: IAppointment[]
     users: Array<IUser>
     isAddAppointmentModalOpen: Signal<boolean>
     isEditAppointmentModalOpen: Signal<boolean>
     editModalData: IAppointment
+    userName: string
   }) => {
     const selectedDay = useSignal(new Date())
     const hasAppointments = appointments.length > 0
@@ -36,6 +38,7 @@ export const CalendarView = component$(
           class={`bg-grayBrandLight h-[60vh] p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  ${hasAppointments ? 'overflow-y-scroll' : 'overflow-hidden'}`}
         >
           <TaskShow
+            userName={userName}
             appointments={appointments}
             selectedDay={selectedDay.value}
             isEditAppointmentModalOpen={isEditAppointmentModalOpen}
