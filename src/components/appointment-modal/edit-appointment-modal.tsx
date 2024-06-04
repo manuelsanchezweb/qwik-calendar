@@ -3,20 +3,16 @@ import { Form } from '@builder.io/qwik-city'
 import { APP_CATEGORIES } from '~/config'
 import { useAddAppointment } from '~/global'
 
-export const AddAppointmentModal = component$(
+export const EditAppointmentModal = component$(
   ({
-    isAddAppointmentModalOpen,
+    isEditAppointmentModalOpen,
+    editModalData,
+    
   }: {
-    isAddAppointmentModalOpen: Signal<boolean>
+    isEditAppointmentModalOpen: Signal<boolean>
+    editModalData: any
   }) => {
     const action = useAddAppointment()
-    // Default date for the date input comes form ?day on the url or today
-    const url = new URL(window.location.href)
-    const day = url.searchParams.get('day')
-
-    const defaultOptionForDate = day
-      ? day
-      : new Date().toISOString().split('T')[0]
 
     useOn(
       'click',
@@ -25,7 +21,7 @@ export const AddAppointmentModal = component$(
           event.target instanceof HTMLElement &&
           !event.target.closest('.form')
         ) {
-          isAddAppointmentModalOpen.value = false
+          isEditAppointmentModalOpen.value = false
           document.body.style.overflow = 'auto'
         }
       })
@@ -34,7 +30,7 @@ export const AddAppointmentModal = component$(
     useOn(
       'submit',
       $(() => {
-        isAddAppointmentModalOpen.value = false
+        isEditAppointmentModalOpen.value = false
         document.body.style.overflow = 'auto'
       })
     )
@@ -46,10 +42,10 @@ export const AddAppointmentModal = component$(
           spaReset
           action={action}
           style="box-shadow: 10px 10px 120px -12px #E5EDD8;"
-          class="form z-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border border-grayBrandLight px-6 md:px-12 py-8 md:py-14 rounded-md w-full max-w-[92%] md:max-w-[600px] overflow-auto"
+          class="form z-20 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border border-grayBrandLight px-6 md:px-12 py-8 md:py-14 rounded-md w-full max-w-[92%] md:max-w-[600px] overflow-auto"
         >
           <h2 class="text-2xl md:text-4xl font-bold text-primary">
-            Create New Appointment
+            {'Edit This Appointment'}
           </h2>
 
           {/* Event Name  */}
@@ -62,6 +58,7 @@ export const AddAppointmentModal = component$(
             </label>
             <input
               placeholder="Meeting with John Doe"
+              value={editModalData.title}
               required
               name="title"
               id="title"
@@ -84,7 +81,7 @@ export const AddAppointmentModal = component$(
               id="date"
               type="date"
               class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
-              defaultValue={defaultOptionForDate}
+              value={editModalData.date }
             />
           </div>
 
@@ -98,7 +95,7 @@ export const AddAppointmentModal = component$(
                 Starts at
               </label>
               <input
-                value="08:00"
+                value={editModalData.start}
                 name="time_start"
                 id="time_start"
                 type="text"
@@ -113,7 +110,7 @@ export const AddAppointmentModal = component$(
                 Ends at
               </label>
               <input
-                value="09:00"
+                 value={editModalData.end}
                 name="time_end"
                 id="time_end"
                 type="text"
@@ -131,6 +128,7 @@ export const AddAppointmentModal = component$(
               name="full_day"
               id="full_day"
               type="checkbox"
+              checked={editModalData.fullDay}
               class="w-3 h-3 accent-primary"
             />
           </div>
@@ -147,6 +145,7 @@ export const AddAppointmentModal = component$(
               required
               name="category"
               id="category"
+              value={editModalData.category}
               class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
             >
               {APP_CATEGORIES.map((category) => (
@@ -158,11 +157,18 @@ export const AddAppointmentModal = component$(
           </div>
 
           <footer class="mt-5">
-            <div class="flex justify-end gap-4 items-center">
+            <div class="flex justify-between gap-4 items-center">
+                <button
+                class="btn flex justify-center items-center gap-2 bg-grayBrandLight text-black mt-2 md:mt-8"
+
+                >
+
+                Delete Event
+              </button>
               <button
                 class="btn bg-grayBrandLight text-black mt-2 md:mt-8"
                 onClick$={() => {
-                  isAddAppointmentModalOpen.value = false
+                  isEditAppointmentModalOpen.value = false
                   document.body.style.overflow = 'auto'
                 }}
               >

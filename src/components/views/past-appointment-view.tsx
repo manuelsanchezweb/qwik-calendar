@@ -65,6 +65,8 @@ export const PastAppointmentsView = component$(
                 return (
                   <TaskCard
                     key={idx}
+                    id={task.id}
+                    category={task.category}
                     showDate={showDate}
                     showEdit={false}
                     title={task.title}
@@ -73,6 +75,8 @@ export const PastAppointmentsView = component$(
                     time_start={task.time_start}
                     time_end={task.time_end}
                     created_by={author}
+                    isEditAppointmentModalOpen={null}
+                    editModalData={null}
                   />
                 )
               })}

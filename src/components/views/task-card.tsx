@@ -1,16 +1,20 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, $ } from '@builder.io/qwik'
 import { getFormattedDate } from '~/utils/functions'
 import { IconManager } from '~/icons/icon-manager'
 
 interface IProps {
   created_by: number | string
+  id: number
   title: string
   date: string
   showDate: boolean
   showEdit: boolean
   time_start: string
+  category: string
   time_end: string
   full_day: any
+  isEditAppointmentModalOpen: any
+  editModalData: any
 }
 
 export default component$((props: IProps) => {
@@ -42,7 +46,16 @@ export default component$((props: IProps) => {
         </div>
 
         {props.showEdit ? (
-          <button class="flex justify-end" onClick$={() => alert('Open modal')}>
+          <button class="flex justify-end" 
+                  onClick$={$(() =>{props.isEditAppointmentModalOpen.value = true
+                                    props.editModalData.id = props.id
+                                    props.editModalData.title = props.title
+                                    props.editModalData.date = props.date
+                                    props.editModalData.start = props.time_start
+                                    props.editModalData.end = props.time_end
+                                    props.editModalData.fullDay = props.full_day
+                                    props.editModalData.category = props.category
+                  }) }>
             <IconManager icon="edit" classCustom="h-12 w-12" />
           </button>
         ) : (

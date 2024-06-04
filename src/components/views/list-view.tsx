@@ -1,4 +1,4 @@
-import { component$, useComputed$ } from '@builder.io/qwik'
+import { component$, useComputed$, type Signal } from '@builder.io/qwik'
 import { type IUser, type IAppointment } from '~/types/types'
 import TaskCard from './task-card'
 import { getAuthorByTaskId, parseTime } from '~/utils/functions'
@@ -7,9 +7,13 @@ export const ListView = component$(
   ({
     appointments,
     users,
+    isEditAppointmentModalOpen,
+    editModalData
   }: {
     appointments: Array<IAppointment>
     users: Array<IUser>
+    isEditAppointmentModalOpen: Signal<boolean>
+    editModalData: any
   }) => {
     const futureAppointments = useComputed$(() => {
       if (appointments.length === 0) return []
@@ -87,6 +91,7 @@ export const ListView = component$(
                   return (
                     <TaskCard
                       key={idx}
+                      id={task.id}
                       showDate={showDate}
                       showEdit={true}
                       title={task.title}
@@ -95,6 +100,9 @@ export const ListView = component$(
                       time_start={task.time_start}
                       time_end={task.time_end}
                       created_by={author}
+                      category={task.category}
+                      isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+                      editModalData={editModalData}
                     />
                   )
                 }
@@ -117,6 +125,8 @@ export const ListView = component$(
                   <TaskCard
                     showEdit={true}
                     key={idx}
+                    category={task.category}
+                    id={task.id}
                     showDate={false}
                     title={task.title}
                     date={task.date}
@@ -124,6 +134,8 @@ export const ListView = component$(
                     time_start={task.time_start}
                     time_end={task.time_end}
                     created_by={author}
+                    isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+                    editModalData={editModalData}
                   />
                 )
               })}
