@@ -437,6 +437,25 @@ export const IconHistoryFill = component$(
   }
 )
 
+export const IconChevronDown = component$(
+  ({ classCustom }: { classCustom?: string }) => {
+    return (
+      <svg
+        class={classCustom}
+        width="33"
+        height="33"
+        viewBox="0 0 33 33"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M27.8278 11.9588C28.2626 11.524 28.2626 10.819 27.8278 10.3842C27.393 9.9494 26.6881 9.94941 26.2533 10.3842L16.7595 19.878L7.26565 10.3842C6.83085 9.94941 6.12589 9.94941 5.69109 10.3842C5.25629 10.819 5.25629 11.524 5.69109 11.9588L15.9722 22.2399C16.407 22.6747 17.1119 22.6747 17.5467 22.2399L27.8278 11.9588Z"
+          fill="#2B7277"
+        />
+      </svg>
+    )
+  }
+)
 export const IconRemove = component$(
   ({ classCustom }: { classCustom?: string }) => {
     return (
