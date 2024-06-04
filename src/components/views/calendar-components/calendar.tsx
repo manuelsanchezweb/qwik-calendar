@@ -37,59 +37,67 @@ export const Calendar = component$(
       )
       window.history.pushState({}, '', url.toString())
     })
-    
-
 
     const checkSelectedDay = (day: any) => {
-      const currentDate = new Date();
-      const selectedDate = new Date(selectedDay.value);
-    
-      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
-                                      selectedDate.getMonth() === currentDate.getMonth() &&
-                                      selectedDate.getFullYear() === currentDate.getFullYear();
-    
+      const currentDate = new Date()
+      const selectedDate = new Date(selectedDay.value)
+
+      const isSelectedDayCurrentDay =
+        selectedDate.getDate() === currentDate.getDate() &&
+        selectedDate.getMonth() === currentDate.getMonth() &&
+        selectedDate.getFullYear() === currentDate.getFullYear()
+
       if (isSelectedDayCurrentDay) {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() && 
-            day.year === selectedDate.getFullYear()) {
-          return true;
+        if (
+          day.day === selectedDate.getDate() &&
+          day.month === selectedDate.getMonth() &&
+          day.year === selectedDate.getFullYear()
+        ) {
+          return true
         } else {
-          return false;
+          return false
         }
       } else {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() - 1 && 
-            day.year === selectedDate.getFullYear()) {
-          return true;
+        if (
+          day.day === selectedDate.getDate() &&
+          day.month === selectedDate.getMonth() - 1 &&
+          day.year === selectedDate.getFullYear()
+        ) {
+          return true
         } else {
-          return false;
+          return false
         }
       }
-    };
+    }
 
     const openOnDoubleClick = $((day: any) => {
-      const currentDate = new Date();
-      const selectedDate = new Date(selectedDay.value);
-    
-      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
-                                      selectedDate.getMonth() === currentDate.getMonth() &&
-                                      selectedDate.getFullYear() === currentDate.getFullYear();
-    
+      const currentDate = new Date()
+      const selectedDate = new Date(selectedDay.value)
+
+      const isSelectedDayCurrentDay =
+        selectedDate.getDate() === currentDate.getDate() &&
+        selectedDate.getMonth() === currentDate.getMonth() &&
+        selectedDate.getFullYear() === currentDate.getFullYear()
+
       if (isSelectedDayCurrentDay) {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() && 
-            day.year === selectedDate.getFullYear()) {
+        if (
+          day.day === selectedDate.getDate() &&
+          day.month === selectedDate.getMonth() &&
+          day.year === selectedDate.getFullYear()
+        ) {
           isAddAppointmentModalOpen.value = true
         } else {
-          setSelectedDay(day);
+          setSelectedDay(day)
         }
       } else {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() - 1 && 
-            day.year === selectedDate.getFullYear()) {
-              isAddAppointmentModalOpen.value = true
-            } else {
-              setSelectedDay(day);
+        if (
+          day.day === selectedDate.getDate() &&
+          day.month === selectedDate.getMonth() - 1 &&
+          day.year === selectedDate.getFullYear()
+        ) {
+          isAddAppointmentModalOpen.value = true
+        } else {
+          setSelectedDay(day)
         }
       }
     })
@@ -151,7 +159,7 @@ export const Calendar = component$(
             {weeks.flat().map((day, index) => {
               const id = `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
               const hasTask = appointments.some((event) => event.date === id)
-              
+
               return (
                 <button
                   key={index}
@@ -163,7 +171,7 @@ export const Calendar = component$(
                 >
                   {day.day}
                   {hasTask ? (
-                    <p class="absolute w-2 h-2 top-0 right-0 md:top-2 md:right-2">
+                    <p class="absolute w-2 h-2 top-0 right-0 sm:top-2 sm:right-2">
                       <svg
                         width="9"
                         height="9"

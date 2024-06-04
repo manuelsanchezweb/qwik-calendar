@@ -14,40 +14,25 @@ import { type IAppointment } from '~/types/types'
 
 export const EditAppointmentModal = component$(
   ({
+    isRemoveAppointmentModalOpen,
     isEditAppointmentModalOpen,
     editModalData,
   }: {
+    isRemoveAppointmentModalOpen: Signal<boolean>
     isEditAppointmentModalOpen: Signal<boolean>
     editModalData: IAppointment
   }) => {
     const action = useEditAppointment()
     const fullDayRef = useSignal<HTMLInputElement>()
+    const areInputsDisabled = useSignal<boolean>()
+
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(({ track }) => {
-      const timeStart = document.getElementById(
-        'time_start'
-      ) as HTMLInputElement
-      const timeEnd = document.getElementById('time_end') as HTMLInputElement
-
-      if (fullDayRef.value?.checked) {
-        // make the inputs disabled
-        timeStart.disabled = true
-        timeEnd.disabled = true
-      } else {
-        timeStart.disabled = false
-        timeEnd.disabled = false
-      }
+      areInputsDisabled.value = fullDayRef.value?.checked === true
 
       track(() =>
         fullDayRef.value?.addEventListener('change', () => {
-          if (fullDayRef.value?.checked) {
-            // make the inputs disabled
-            timeStart.disabled = true
-            timeEnd.disabled = true
-          } else {
-            timeStart.disabled = false
-            timeEnd.disabled = false
-          }
+          areInputsDisabled.value = fullDayRef.value?.checked === true
         })
       )
     })
@@ -70,7 +55,6 @@ export const EditAppointmentModal = component$(
       $(() => {
         isEditAppointmentModalOpen.value = false
         document.body.style.overflow = 'auto'
-        // make a fake push window to the same url we are in
         // TODO: had to make it reload the page to get the last changes
         window.location.reload()
       })
@@ -140,7 +124,7 @@ export const EditAppointmentModal = component$(
                 name="time_start"
                 id="time_start"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
+                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
               />
             </div>
             <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
@@ -155,7 +139,7 @@ export const EditAppointmentModal = component$(
                 name="time_end"
                 id="time_end"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
+                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
               />
             </div>
           </div>
@@ -207,8 +191,15 @@ export const EditAppointmentModal = component$(
           />
 
           <footer class="mt-5">
-            <div class="flex justify-between gap-4 items-center">
-              <button class="btn flex justify-center items-center gap-2 bg-grayBrandLight text-black mt-2 md:mt-8 group">
+            <div class="flex flex-wrap justify-between gap-4 items-center">
+              <button
+                type="button"
+                onClick$={() => {
+                  isEditAppointmentModalOpen.value = false
+                  isRemoveAppointmentModalOpen.value = true
+                }}
+                class="btn flex justify-center items-center gap-2 bg-grayBrandLight text-black mt-2 md:mt-8 group"
+              >
                 <IconManager
                   icon="remove"
                   classCustom="w-6 h-auto text-primary group-hover:text-white group-focus:text-white"
@@ -216,6 +207,7 @@ export const EditAppointmentModal = component$(
                 <span>Delete Event</span>
               </button>
               <button
+                type="button"
                 class="btn bg-grayBrandLight text-black mt-2 md:mt-8"
                 onClick$={() => {
                   isEditAppointmentModalOpen.value = false

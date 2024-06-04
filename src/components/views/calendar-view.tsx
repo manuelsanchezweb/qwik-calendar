@@ -9,31 +9,39 @@ export const CalendarView = component$(
     users,
     isAddAppointmentModalOpen,
     isEditAppointmentModalOpen,
-    editModalData
+    editModalData,
   }: {
-    appointments: IAppointment[],
-    users: Array<IUser>,
+    appointments: IAppointment[]
+    users: Array<IUser>
     isAddAppointmentModalOpen: Signal<boolean>
     isEditAppointmentModalOpen: Signal<boolean>
-    editModalData: any
+    editModalData: IAppointment
   }) => {
     const selectedDay = useSignal(new Date())
+    const hasAppointments = appointments.length > 0
 
     return (
       <section
         aria-label="calendar view"
         class="flex flex-col lg:flex-row justify-between gap-6"
       >
-        <div class="bg-grayBrandLight p-12 pt-2 rounded-xl w-full lg:w-1/2">
-          <Calendar appointments={appointments} selectedDay={selectedDay} isAddAppointmentModalOpen={isAddAppointmentModalOpen}/>
+        <div class="bg-grayBrandLight p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2">
+          <Calendar
+            appointments={appointments}
+            selectedDay={selectedDay}
+            isAddAppointmentModalOpen={isAddAppointmentModalOpen}
+          />
         </div>
-        <div class="bg-grayBrandLight overflow-hidden h-[60vh] overflow-y-scroll p-12 pt-2 rounded-xl w-full lg:w-1/2 ">
+        <div
+          class={`bg-grayBrandLight h-[60vh] p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  ${hasAppointments ? 'overflow-y-scroll' : 'overflow-hidden'}`}
+        >
           <TaskShow
             appointments={appointments}
             selectedDay={selectedDay.value}
             isEditAppointmentModalOpen={isEditAppointmentModalOpen}
             editModalData={editModalData}
             users={users}
+            isAddAppointmentModalOpen={isAddAppointmentModalOpen}
           />
         </div>
       </section>

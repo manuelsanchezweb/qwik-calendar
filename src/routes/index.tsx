@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStore } from '@builder.io/qwik'
+import { component$, useSignal, useStore } from '@builder.io/qwik'
 import {
   type RequestEventBase,
   routeLoader$,
@@ -27,6 +27,7 @@ import {
   IS_ADD_APPOINTMENT_MODAL_OPENED,
   IS_EDIT_APPOINTMENT_MODAL_OPENED,
 } from '~/config'
+import { RemoveAppointmentModal } from '~/components/appointment-modal/remove-appointment-modal'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -64,6 +65,7 @@ export default component$(() => {
   const selectedView = useSignal<ViewKeys>(initialView)
   const isAddAppointmentModalOpen = useSignal(IS_ADD_APPOINTMENT_MODAL_OPENED)
   const isEditAppointmentModalOpen = useSignal(IS_EDIT_APPOINTMENT_MODAL_OPENED)
+  const isRemoveAppointmentModalOpen = useSignal(false)
 
   const editModalData: IAppointment = useStore({
     id: -1,
@@ -73,11 +75,6 @@ export default component$(() => {
     time_end: '',
     full_day: 0,
     category: '',
-  })
-
-  const openAddAppointmentModal = $(() => {
-    isAddAppointmentModalOpen.value = true
-    document.body.style.overflow = 'hidden'
   })
 
   if (!isAuthorized) return <LoginForm />
@@ -108,7 +105,10 @@ export default component$(() => {
           <ViewsButtons selectedView={selectedView} />
 
           <button
-            onClick$={openAddAppointmentModal}
+            onClick$={() => {
+              isAddAppointmentModalOpen.value = true
+              document.body.style.overflow = 'hidden'
+            }}
             class="transition-transform hover:scale-105 focus:scale-105"
           >
             <IconManager icon="add" classCustom="w-12 h-auto" />
@@ -154,7 +154,18 @@ export default component$(() => {
 
         {isEditAppointmentModalOpen.value ? (
           <EditAppointmentModal
+            isRemoveAppointmentModalOpen={isRemoveAppointmentModalOpen}
             isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+            editModalData={editModalData}
+          />
+        ) : (
+          ''
+        )}
+
+        {isRemoveAppointmentModalOpen.value ? (
+          <RemoveAppointmentModal
+            isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+            isRemoveAppointmentModalOpen={isRemoveAppointmentModalOpen}
             editModalData={editModalData}
           />
         ) : (

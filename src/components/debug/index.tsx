@@ -18,6 +18,8 @@ export const Debug = component$(
     const action = useAddAppointment()
     const isDebugOpened = useSignal(IS_DEBUG_ACTIVE)
 
+    if (!IS_DEBUG_ACTIVE) return null
+
     return isDebugOpened.value ? (
       <div class="absolute right-0 top-0 border-black border-2 flex flex-col gap-3 items-center justify-center bg-white">
         <button

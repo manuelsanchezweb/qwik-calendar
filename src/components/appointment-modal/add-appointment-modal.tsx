@@ -32,25 +32,15 @@ export const AddAppointmentModal = component$(
     })
 
     const fullDayRef = useSignal<HTMLInputElement>()
+    const areInputsDisabled = useSignal<boolean>()
+
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(({ track }) => {
+      areInputsDisabled.value = fullDayRef.value?.checked === true
+
       track(() =>
         fullDayRef.value?.addEventListener('change', () => {
-          const timeStart = document.getElementById(
-            'time_start'
-          ) as HTMLInputElement
-          const timeEnd = document.getElementById(
-            'time_end'
-          ) as HTMLInputElement
-
-          if (fullDayRef.value?.checked) {
-            // make the inputs disabled
-            timeStart.disabled = true
-            timeEnd.disabled = true
-          } else {
-            timeStart.disabled = false
-            timeEnd.disabled = false
-          }
+          areInputsDisabled.value = fullDayRef.value?.checked === true
         })
       )
     })
@@ -140,7 +130,7 @@ export const AddAppointmentModal = component$(
                 name="time_start"
                 id="time_start"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
+                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
               />
             </div>
             <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
@@ -155,7 +145,7 @@ export const AddAppointmentModal = component$(
                 name="time_end"
                 id="time_end"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
+                class={`"w-full border border-grayBrandMedium rounded-md px-4 py-2 ${areInputsDisabled.value ? 'opacity-85 cursor-not-allowed text-grayBrand' : ''} `}
               />
             </div>
           </div>
