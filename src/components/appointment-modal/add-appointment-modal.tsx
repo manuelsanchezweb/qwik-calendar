@@ -33,7 +33,70 @@ export const AddAppointmentModal = component$(
     })
 
     const fullDayRef = useSignal<HTMLInputElement>()
+    const endTimeRef = useSignal<HTMLInputElement>()
+    const hasDateInputError = useSignal<boolean>(false)
     const areInputsDisabled = useSignal<boolean>()
+
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      const startTimeValue =
+        document.querySelector<HTMLInputElement>('#time_start')?.value
+
+      const startTimeValueInSeconds =
+        Number(startTimeValue?.split(':')[0]) * 60 +
+        Number(startTimeValue?.split(':')[1])
+      const endTimeValueInSeconds =
+        Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
+        Number(endTimeRef.value?.value?.split(':')[1])
+
+      if (endTimeValueInSeconds < startTimeValueInSeconds + 15) {
+        if (fullDayRef.value?.checked === false) {
+          hasDateInputError.value = true
+        } else {
+          hasDateInputError.value = false
+        }
+      } else {
+        hasDateInputError.value = false
+      }
+
+      track(() =>
+        endTimeRef.value?.addEventListener('input', () => {
+          const startTimeValueInSeconds =
+            Number(startTimeValue?.split(':')[0]) * 60 +
+            Number(startTimeValue?.split(':')[1])
+          const endTimeValueInSeconds =
+            Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
+            Number(endTimeRef.value?.value?.split(':')[1])
+
+          if (endTimeValueInSeconds < startTimeValueInSeconds + 15) {
+            hasDateInputError.value = true
+          } else {
+            hasDateInputError.value = false
+          }
+        })
+      )
+
+      track(() =>
+        fullDayRef.value?.addEventListener('change', () => {
+          const startTimeValueInSeconds =
+            Number(startTimeValue?.split(':')[0]) * 60 +
+            Number(startTimeValue?.split(':')[1])
+          const endTimeValueInSeconds =
+            Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
+            Number(endTimeRef.value?.value?.split(':')[1])
+
+          if (endTimeValueInSeconds < startTimeValueInSeconds + 15) {
+            if (fullDayRef.value?.checked === false) {
+              hasDateInputError.value = true
+            } else {
+              hasDateInputError.value = false
+            }
+          } else {
+            hasDateInputError.value = false
+          }
+        })
+      )
+    })
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(({ track }) => {
@@ -45,7 +108,6 @@ export const AddAppointmentModal = component$(
         })
       )
     })
-
     useOn(
       'click',
       $((event) => {
@@ -107,15 +169,29 @@ export const AddAppointmentModal = component$(
             >
               Date
             </label>
-            <input
-              required
-              name="date"
-              id="date"
-              type="date"
-              class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
-              defaultValue={defaultOptionForDate.value}
-            />
+            <div class="relative">
+              <input
+                required
+                name="date"
+                id="date"
+                type="date"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                defaultValue={defaultOptionForDate.value}
+              />
+              <div class="pl-4 bg-white absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                <IconManager
+                  icon="calendar"
+                  classCustom="bg-white h-6 w-6 text-primary pointer-events-none"
+                />
+              </div>
+            </div>
           </div>
+
+          {hasDateInputError.value && (
+            <div class="mt-6 text-red-500">
+              Error: End time must be at least 15 minutes later than start time
+            </div>
+          )}
 
           {/* time_start and time_end  */}
           <div class="flex flex-col md:flex-row gap-4">
@@ -128,7 +204,7 @@ export const AddAppointmentModal = component$(
               </label>
               <div class="relative">
                 <input
-                  value={'8:00'}
+                  value={'08:00'}
                   name="time_start"
                   id="time_start"
                   type="text"
@@ -149,7 +225,8 @@ export const AddAppointmentModal = component$(
               </label>
               <div class="relative">
                 <input
-                  value={'9:00'}
+                  ref={endTimeRef}
+                  value={'09:00'}
                   name="time_end"
                   id="time_end"
                   type="text"
@@ -217,8 +294,13 @@ export const AddAppointmentModal = component$(
                 Cancel
               </button>
               <button
-                class="btn bg-primaryLight text-black mt-2 md:mt-8"
+                class={`btn bg-primaryLight text-black mt-2 md:mt-8 ${
+                  hasDateInputError.value
+                    ? 'opacity-80 pointer-events-none'
+                    : ''
+                }`}
                 type="submit"
+                disabled={hasDateInputError.value}
               >
                 Save Event
               </button>

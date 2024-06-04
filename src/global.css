@@ -40,3 +40,16 @@ select {
   -webkit-appearance: none; /* Safari and Chrome */
   appearance: none;
 }
+
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+input[type='date']::-webkit-input-placeholder {
+  visibility: hidden !important;
+}
