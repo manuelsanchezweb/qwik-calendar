@@ -11,6 +11,8 @@ import {
   IconList,
   IconListFill,
   IconRemove,
+  IconTimeEnd,
+  IconTimeStart,
   IconUser,
 } from './icons'
 
@@ -29,6 +31,8 @@ type IconType =
   | 'history'
   | 'history-fill'
   | 'dropdown'
+  | 'time-start'
+  | 'time-end'
 
 interface IconManagerProps {
   icon?: IconType
@@ -62,6 +66,10 @@ export const IconManager = component$<IconManagerProps>(
         return <IconHistoryFill classCustom={classCustom} />
       case 'dropdown':
         return <IconChevronDown classCustom={classCustom} />
+      case 'time-start':
+        return <IconTimeStart classCustom={classCustom} />
+      case 'time-end':
+        return <IconTimeEnd classCustom={classCustom} />
       default:
         return <IconAdd classCustom={classCustom} />
     }
