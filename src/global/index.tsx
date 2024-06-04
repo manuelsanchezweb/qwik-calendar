@@ -1,7 +1,11 @@
 import { globalAction$ } from '@builder.io/qwik-city'
 import { APP_USERS } from '~/config'
 
-import { createAppointment, updateAppointment } from '~/db/queries'
+import {
+  createAppointment,
+  deleteAppointment,
+  updateAppointment,
+} from '~/db/queries'
 import { type IUser } from '~/types/types'
 import { getIdByAuthorName, getListAvailablePasswords } from '~/utils/functions'
 
@@ -90,6 +94,17 @@ export const useEditAppointment = globalAction$(async (data, { cookie }) => {
   }
 
   await updateAppointment(data['id'] as number, newAppointment)
+  return {
+    success: true,
+  }
+})
+
+/**
+ * Action to remove an appointment
+ */
+export const useRemoveAppointment = globalAction$(async (data) => {
+  await deleteAppointment(data['id'] as number)
+
   return {
     success: true,
   }
