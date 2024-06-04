@@ -122,6 +122,7 @@ export default component$(() => {
             isAddAppointmentModalOpen={isAddAppointmentModalOpen}
             isEditAppointmentModalOpen={isEditAppointmentModalOpen}
             editModalData={editModalData}
+            userName={userName}
           />
         ) : (
           ''
@@ -133,6 +134,7 @@ export default component$(() => {
             users={users}
             isEditAppointmentModalOpen={isEditAppointmentModalOpen}
             editModalData={editModalData}
+            userName={userName}
           />
         ) : (
           ''

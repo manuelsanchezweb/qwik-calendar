@@ -9,11 +9,13 @@ export const ListView = component$(
     users,
     isEditAppointmentModalOpen,
     editModalData,
+    userName,
   }: {
     appointments: Array<IAppointment>
     users: Array<IUser>
     isEditAppointmentModalOpen: Signal<boolean>
     editModalData: IAppointment
+    userName: string
   }) => {
     const futureAppointments = useComputed$(() => {
       if (appointments.length === 0) return []
@@ -93,7 +95,7 @@ export const ListView = component$(
                       key={idx}
                       id={task.id}
                       showDate={showDate}
-                      showEdit={true}
+                      showEdit={author === userName}
                       title={task.title}
                       date={task.date}
                       full_day={task.full_day}
@@ -123,7 +125,7 @@ export const ListView = component$(
 
                 return (
                   <TaskCard
-                    showEdit={true}
+                    showEdit={author === userName}
                     key={idx}
                     category={task.category}
                     id={task.id}

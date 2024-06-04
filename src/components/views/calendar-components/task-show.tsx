@@ -11,13 +11,15 @@ export const TaskShow = component$(
     isEditAppointmentModalOpen,
     editModalData,
     isAddAppointmentModalOpen,
+    userName,
   }: {
     appointments: IAppointment[]
     selectedDay: Date
     users: Array<IUser>
     isEditAppointmentModalOpen: Signal<boolean>
-    editModalData: any
+    editModalData: IAppointment
     isAddAppointmentModalOpen: Signal<boolean>
+    userName: string
   }) => {
     // TODO: why when I click, the day I get is the previous one?
     // console.log({ selectedDay })
@@ -50,7 +52,7 @@ export const TaskShow = component$(
                     id={task.id}
                     category={task.category}
                     showDate={false}
-                    showEdit={true}
+                    showEdit={author === userName}
                     title={task.title}
                     date={task.date}
                     full_day={task.full_day}
