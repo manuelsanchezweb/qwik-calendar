@@ -9,6 +9,7 @@ import {
 import { Form } from '@builder.io/qwik-city'
 import { APP_CATEGORIES } from '~/config'
 import { useAddAppointment } from '~/global'
+import { IconManager } from '~/icons/icon-manager'
 
 export function getDayFromUrl() {
   const url = new URL(window.location.href)
@@ -172,18 +173,24 @@ export const AddAppointmentModal = component$(
             >
               Category
             </label>
-            <select
-              required
-              name="category"
-              id="category"
-              class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
-            >
-              {APP_CATEGORIES.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+            <div class="relative">
+              <select
+                required
+                name="category"
+                id="category"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 cursor-pointer bg-white"
+              >
+                {APP_CATEGORIES.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              <IconManager
+                icon="dropdown"
+                classCustom="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none"
+              />
+            </div>
           </div>
 
           <footer class="mt-5">

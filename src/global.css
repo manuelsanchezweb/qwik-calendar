@@ -34,3 +34,9 @@ body {
     @apply bg-primaryLight text-primary h-fit py-2 px-8 text-base hover:bg-primary hover:text-primaryLight focus:bg-primary focus:text-primaryLight cursor-pointer w-fit rounded-md;
   }
 }
+
+select {
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+}

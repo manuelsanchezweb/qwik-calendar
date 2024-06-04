@@ -3,6 +3,7 @@ import {
   IconAdd,
   IconCalender,
   IconCalenderFill,
+  IconChevronDown,
   IconEdit,
   IconGithub,
   IconHistory,
@@ -27,6 +28,7 @@ type IconType =
   | 'arrow-right'
   | 'history'
   | 'history-fill'
+  | 'dropdown'
 
 interface IconManagerProps {
   icon?: IconType
@@ -58,6 +60,8 @@ export const IconManager = component$<IconManagerProps>(
         return <IconHistory classCustom={classCustom} />
       case 'history-fill':
         return <IconHistoryFill classCustom={classCustom} />
+      case 'dropdown':
+        return <IconChevronDown classCustom={classCustom} />
       default:
         return <IconAdd classCustom={classCustom} />
     }
