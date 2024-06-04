@@ -1,24 +1,59 @@
-import { $, type Signal, component$, useOn } from '@builder.io/qwik'
+import {
+  $,
+  type Signal,
+  component$,
+  useOn,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik'
 import { Form } from '@builder.io/qwik-city'
 import { APP_CATEGORIES } from '~/config'
 import { useAddAppointment } from '~/global'
 
+export function getDayFromUrl() {
+  const url = new URL(window.location.href)
+  const day = url.searchParams.get('day')
+
+  return day ? day : new Date().toISOString().split('T')[0]
+}
+
 export const AddAppointmentModal = component$(
   ({
     isAddAppointmentModalOpen,
-
   }: {
     isAddAppointmentModalOpen: Signal<boolean>
-
   }) => {
     const action = useAddAppointment()
-    // Default date for the date input comes form ?day on the url or today
-    const url = new URL(window.location.href)
-    const day = url.searchParams.get('day')
+    const defaultOptionForDate = useSignal<string>()
 
-    const defaultOptionForDate = day
-      ? day
-      : new Date().toISOString().split('T')[0]
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(() => {
+      defaultOptionForDate.value = getDayFromUrl()
+    })
+
+    const fullDayRef = useSignal<HTMLInputElement>()
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      track(() =>
+        fullDayRef.value?.addEventListener('change', () => {
+          const timeStart = document.getElementById(
+            'time_start'
+          ) as HTMLInputElement
+          const timeEnd = document.getElementById(
+            'time_end'
+          ) as HTMLInputElement
+
+          if (fullDayRef.value?.checked) {
+            // make the inputs disabled
+            timeStart.disabled = true
+            timeEnd.disabled = true
+          } else {
+            timeStart.disabled = false
+            timeEnd.disabled = false
+          }
+        })
+      )
+    })
 
     useOn(
       'click',
@@ -64,7 +99,7 @@ export const AddAppointmentModal = component$(
             </label>
             <input
               placeholder="Meeting with John Doe"
-              value={ ''}
+              value={''}
               required
               name="title"
               id="title"
@@ -87,7 +122,7 @@ export const AddAppointmentModal = component$(
               id="date"
               type="date"
               class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
-              defaultValue={defaultOptionForDate }
+              defaultValue={defaultOptionForDate.value}
             />
           </div>
 
@@ -101,11 +136,11 @@ export const AddAppointmentModal = component$(
                 Starts at
               </label>
               <input
-                value={'8:00' }
+                value={'8:00'}
                 name="time_start"
                 id="time_start"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
               />
             </div>
             <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
@@ -116,11 +151,11 @@ export const AddAppointmentModal = component$(
                 Ends at
               </label>
               <input
-                 value={'9:00' }
+                value={'9:00'}
                 name="time_end"
                 id="time_end"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
               />
             </div>
           </div>
@@ -131,6 +166,7 @@ export const AddAppointmentModal = component$(
               Is it a full day event?
             </label>
             <input
+              ref={fullDayRef}
               name="full_day"
               id="full_day"
               type="checkbox"

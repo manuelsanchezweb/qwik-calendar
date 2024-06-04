@@ -9,6 +9,7 @@ import {
   IconHistoryFill,
   IconList,
   IconListFill,
+  IconRemove,
   IconUser,
 } from './icons'
 
@@ -51,6 +52,8 @@ export const IconManager = component$<IconManagerProps>(
         return <IconAdd classCustom={classCustom} />
       case 'edit':
         return <IconEdit classCustom={classCustom} />
+      case 'remove':
+        return <IconRemove classCustom={classCustom} />
       case 'history':
         return <IconHistory classCustom={classCustom} />
       case 'history-fill':

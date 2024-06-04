@@ -1,18 +1,56 @@
-import { $, type Signal, component$, useOn } from '@builder.io/qwik'
+import {
+  $,
+  type Signal,
+  component$,
+  useOn,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik'
 import { Form } from '@builder.io/qwik-city'
 import { APP_CATEGORIES } from '~/config'
-import { useAddAppointment } from '~/global'
+import { useEditAppointment } from '~/global'
+import { IconManager } from '~/icons/icon-manager'
+import { type IAppointment } from '~/types/types'
 
 export const EditAppointmentModal = component$(
   ({
     isEditAppointmentModalOpen,
     editModalData,
-    
   }: {
     isEditAppointmentModalOpen: Signal<boolean>
-    editModalData: any
+    editModalData: IAppointment
   }) => {
-    const action = useAddAppointment()
+    const action = useEditAppointment()
+    const fullDayRef = useSignal<HTMLInputElement>()
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      const timeStart = document.getElementById(
+        'time_start'
+      ) as HTMLInputElement
+      const timeEnd = document.getElementById('time_end') as HTMLInputElement
+
+      if (fullDayRef.value?.checked) {
+        // make the inputs disabled
+        timeStart.disabled = true
+        timeEnd.disabled = true
+      } else {
+        timeStart.disabled = false
+        timeEnd.disabled = false
+      }
+
+      track(() =>
+        fullDayRef.value?.addEventListener('change', () => {
+          if (fullDayRef.value?.checked) {
+            // make the inputs disabled
+            timeStart.disabled = true
+            timeEnd.disabled = true
+          } else {
+            timeStart.disabled = false
+            timeEnd.disabled = false
+          }
+        })
+      )
+    })
 
     useOn(
       'click',
@@ -32,6 +70,9 @@ export const EditAppointmentModal = component$(
       $(() => {
         isEditAppointmentModalOpen.value = false
         document.body.style.overflow = 'auto'
+        // make a fake push window to the same url we are in
+        // TODO: had to make it reload the page to get the last changes
+        window.location.reload()
       })
     )
 
@@ -81,7 +122,7 @@ export const EditAppointmentModal = component$(
               id="date"
               type="date"
               class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
-              value={editModalData.date }
+              value={editModalData.date}
             />
           </div>
 
@@ -95,11 +136,11 @@ export const EditAppointmentModal = component$(
                 Starts at
               </label>
               <input
-                value={editModalData.start}
+                value={editModalData.time_start}
                 name="time_start"
                 id="time_start"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
               />
             </div>
             <div class="flex flex-col gap-2 mt-2 md:mt-8 flex-1">
@@ -110,11 +151,11 @@ export const EditAppointmentModal = component$(
                 Ends at
               </label>
               <input
-                 value={editModalData.end}
+                value={editModalData.time_end}
                 name="time_end"
                 id="time_end"
                 type="text"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 disabled:opacity-85 disabled:cursor-not-allowed disabled:text-grayBrand"
               />
             </div>
           </div>
@@ -125,10 +166,11 @@ export const EditAppointmentModal = component$(
               Is it a full day event?
             </label>
             <input
+              ref={fullDayRef}
               name="full_day"
               id="full_day"
               type="checkbox"
-              checked={editModalData.fullDay}
+              checked={editModalData.full_day === 1}
               class="w-3 h-3 accent-primary"
             />
           </div>
@@ -156,14 +198,22 @@ export const EditAppointmentModal = component$(
             </select>
           </div>
 
+          <input
+            hidden
+            type="number"
+            id="id"
+            name="id"
+            value={editModalData.id}
+          />
+
           <footer class="mt-5">
             <div class="flex justify-between gap-4 items-center">
-                <button
-                class="btn flex justify-center items-center gap-2 bg-grayBrandLight text-black mt-2 md:mt-8"
-
-                >
-
-                Delete Event
+              <button class="btn flex justify-center items-center gap-2 bg-grayBrandLight text-black mt-2 md:mt-8 group">
+                <IconManager
+                  icon="remove"
+                  classCustom="w-6 h-auto text-primary group-hover:text-white group-focus:text-white"
+                />
+                <span>Delete Event</span>
               </button>
               <button
                 class="btn bg-grayBrandLight text-black mt-2 md:mt-8"

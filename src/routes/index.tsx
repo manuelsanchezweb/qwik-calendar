@@ -23,7 +23,10 @@ import { LoginForm } from '~/components/login-form/login-form'
 import { Footer } from '~/components/footer/footer'
 import { AddAppointmentModal } from '~/components/appointment-modal/add-appointment-modal'
 import { EditAppointmentModal } from '~/components/appointment-modal/edit-appointment-modal'
-import { IS_ADD_APPOINTMENT_MODAL_OPENED, IS_EDIT_APPOINTMENT_MODAL_OPENED } from '~/config'
+import {
+  IS_ADD_APPOINTMENT_MODAL_OPENED,
+  IS_EDIT_APPOINTMENT_MODAL_OPENED,
+} from '~/config'
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
@@ -36,6 +39,7 @@ export const useUsersAndAppointments = routeLoader$(
     const users = await getUsers()
     const appointments = await getAppointments()
 
+    // console.log(appointments)
     // Check if user is authorized and who is the user
     const isAuthorized =
       requestEvent.cookie.get('collabender-rules')?.value === '1'
@@ -59,17 +63,16 @@ export default component$(() => {
 
   const selectedView = useSignal<ViewKeys>(initialView)
   const isAddAppointmentModalOpen = useSignal(IS_ADD_APPOINTMENT_MODAL_OPENED)
-
   const isEditAppointmentModalOpen = useSignal(IS_EDIT_APPOINTMENT_MODAL_OPENED)
 
-  const editModalData = useStore({
-    id: '',
+  const editModalData: IAppointment = useStore({
+    id: -1,
     title: '',
     date: '',
-    start: '',
-    end: '',
-    fullDay: false,
-    category: ''
+    time_start: '',
+    time_end: '',
+    full_day: 0,
+    category: '',
   })
 
   const openAddAppointmentModal = $(() => {
@@ -113,13 +116,24 @@ export default component$(() => {
         </div>
 
         {selectedView.value === VIEWS.CALENDAR ? (
-          <CalendarView appointments={appointments} users={users} isAddAppointmentModalOpen={isAddAppointmentModalOpen} isEditAppointmentModalOpen={isEditAppointmentModalOpen} editModalData={editModalData}/>
+          <CalendarView
+            appointments={appointments}
+            users={users}
+            isAddAppointmentModalOpen={isAddAppointmentModalOpen}
+            isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+            editModalData={editModalData}
+          />
         ) : (
           ''
         )}
 
         {selectedView.value === VIEWS.LIST ? (
-          <ListView appointments={appointments} users={users} isEditAppointmentModalOpen={isEditAppointmentModalOpen} editModalData={editModalData}/>
+          <ListView
+            appointments={appointments}
+            users={users}
+            isEditAppointmentModalOpen={isEditAppointmentModalOpen}
+            editModalData={editModalData}
+          />
         ) : (
           ''
         )}
@@ -133,7 +147,6 @@ export default component$(() => {
         {isAddAppointmentModalOpen.value ? (
           <AddAppointmentModal
             isAddAppointmentModalOpen={isAddAppointmentModalOpen}
-   
           />
         ) : (
           ''
