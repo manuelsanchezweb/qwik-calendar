@@ -30,7 +30,7 @@ export const Calendar = component$(
 
 
     const setSelectedDay = $((day: CalendarDay) => {
-      selectedDay.value = new Date(day.year, day.month + 1, day.day)
+      selectedDay.value = new Date(day.year, day.month, day.day)
       // add the ?day=2022-01-01 to the URL without removing the view from the user
       const url = new URL(window.location.href)
       url.searchParams.set(
@@ -43,30 +43,14 @@ export const Calendar = component$(
     
 
     const openOnDoubleClick = $((day: any) => {
-      const currentDate = new Date();
-      const selectedDate = new Date(selectedDay.value);
-    
-      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
-                                      selectedDate.getMonth() === currentDate.getMonth() &&
-                                      selectedDate.getFullYear() === currentDate.getFullYear();
-    
-      if (isSelectedDayCurrentDay) {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() && 
-            day.year === selectedDate.getFullYear()) {
+
+        if (day.day === Number(selectedDay.value.getDate()) && 
+            day.month === Number(selectedDay.value.getMonth()) && 
+            day.year === Number(selectedDay.value.getFullYear())) {
           isAddAppointmentModalOpen.value = true
         } else {
           setSelectedDay(day);
-        }
-      } else {
-        if (day.day === selectedDate.getDate() && 
-            day.month === selectedDate.getMonth() - 1 && 
-            day.year === selectedDate.getFullYear()) {
-              isAddAppointmentModalOpen.value = true
-            } else {
-              setSelectedDay(day);
-        }
-      }
+        }  
     })
 
     return (
@@ -124,9 +108,11 @@ export const Calendar = component$(
 
           <div class="grid grid-cols-7 h-fit mt-4 border">
             {weeks.flat().map((day, index) => {
-              const id = `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
-              const hasTask = appointments.some((event) => event.date === id)
-              const selected = selectedDay.value.getFullYear() + '-' + selectedDay.value.getMonth().toString().padStart(2,'0') + '-' + selectedDay.value.getDate().toString().padStart(2,'0')
+              const id = `${day.year}-${(day.month).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+              const hasTask = appointments.some((event) => event.date === `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`)
+              const selected = selectedDay.value.getFullYear() + '-' + (selectedDay.value.getMonth()).toString().padStart(2,'0') + '-' + selectedDay.value.getDate().toString().padStart(2,'0')
+              console.log(selected)
+              console.log(id)
               
 
               return (

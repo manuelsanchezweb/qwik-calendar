@@ -23,8 +23,9 @@ export const TaskShow = component$(
   }) => {
     // TODO: why when I click, the day I get is the previous one?
     // console.log({ selectedDay })
+    console.log(selectedDay.getMonth())
     const formatDay = (day: Date) => {
-      return `${selectedDay.getFullYear() + '-' + day.getMonth().toString().padStart(2, '0') + '-' + day.getDate().toString().padStart(2, '0')}`
+      return `${day.getFullYear() + '-' + (day.getMonth() + 1).toString().padStart(2, '0') + '-' + day.getDate().toString().padStart(2, '0')}`
     }
     const isThereAnyTaskThisDay = appointments.some(
       (task) => formatDay(selectedDay) === task.date
@@ -35,7 +36,7 @@ export const TaskShow = component$(
         <h1 class="text-text sticky top-0 text-3xl py-4 font-semibold">
           {selectedDay.getDate().toString().padStart(2, '0') +
             '.' +
-            selectedDay.getMonth().toString().padStart(2, '0') +
+            (selectedDay.getMonth() + 1).toString().padStart(2, '0') +
             '.' +
             selectedDay.getFullYear()}
         </h1>
