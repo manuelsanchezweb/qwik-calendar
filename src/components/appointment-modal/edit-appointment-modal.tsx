@@ -32,8 +32,7 @@ export const EditAppointmentModal = component$(
     useVisibleTask$(({ track }) => {
       const startTimeValue =
         document.querySelector<HTMLInputElement>('#time_start')?.value
-      console.log({ startTimeValue })
-      console.log({ endTimeRef: endTimeRef.value?.value })
+
 
       const startTimeFromHoursToSeconds =
         Number(startTimeValue?.split(':')[0]) * 60 +

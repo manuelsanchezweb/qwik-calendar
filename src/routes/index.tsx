@@ -31,6 +31,7 @@ import { RemoveAppointmentModal } from '~/components/appointment-modal/remove-ap
 
 export const useUsersAndAppointments = routeLoader$(
   async (requestEvent: RequestEventBase) => {
+
     // Get the view from the URL
     const viewFromURL = new URLSearchParams(requestEvent.query)
     let initialView = viewFromURL.get('view')?.toUpperCase() as ViewKeys
@@ -59,6 +60,7 @@ export const useUsersAndAppointments = routeLoader$(
 
 export default component$(() => {
   const items = useUsersAndAppointments()
+
   const { users, appointments, initialView, isAuthorized, userName } =
     items.value
 
@@ -82,6 +84,7 @@ export default component$(() => {
   return (
     <>
       <main class="pb-4">
+      
       <svg  viewBox="0 0 1392 204" fill="none" xmlns="http://www.w3.org/2000/svg" class="my-8 sm:w-[300px] sm:h-[100px] h-[70px] w-[200px]">
         <g clip-path="url(#clip0_5_2650)">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M123.454 128.154C123.454 87.8621 156.117 55.199 196.409 55.199C236.701 55.199 269.364 87.8622 269.364 128.154C269.364 168.446 236.701 201.109 196.409 201.109C156.117 201.109 123.454 168.446 123.454 128.154ZM215.567 117.591C215.567 111.758 220.296 107.029 226.129 107.029C231.963 107.029 236.692 111.758 236.692 117.591C236.692 123.425 231.963 128.154 226.129 128.154C220.296 128.154 215.567 123.425 215.567 117.591ZM195.017 107.029C189.183 107.029 184.454 111.758 184.454 117.591C184.454 123.425 189.183 128.154 195.017 128.154C200.85 128.154 205.579 123.425 205.579 117.591C205.579 111.758 200.85 107.029 195.017 107.029Z" fill="#2B7277"/>
