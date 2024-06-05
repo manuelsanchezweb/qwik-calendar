@@ -71,7 +71,7 @@ export const Calendar = component$(
     })
 
     return (
-      <div class="md:min-h-[550px]">
+      <div class="h-fit">
         <div class="flex gap-4 py-6 justify-between">
           <div class="flex gap-8">
             <button onClick$={decrementMonth}>
@@ -143,7 +143,7 @@ export const Calendar = component$(
                   {day.day}
                   
                   {hasTask ? (
-                    <p class="absolute w-2 h-2 top-0 right-0 md:top-2 md:right-2">
+                    <p class="absolute w-2 h-2 top-0 right-0 sm:top-2 sm:right-2">
                       <svg
                         width="9"
                         height="9"

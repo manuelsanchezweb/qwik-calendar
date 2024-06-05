@@ -77,7 +77,7 @@ export const ListView = component$(
         <div class="flex flex-col justify-start py-12 px-10 bg-grayBrandLight w-full rounded-lg my-6">
           <h2 class="text-4xl font-bold text-text">All Events</h2>
           {appointments.length === 0 ? (
-            <p>No appointments</p>
+            <p class="font-light py-4">No appointments</p>
           ) : (
             <ul class="flex flex-col pt-8 gap-8">
               {futureAppointments.value.map((task, idx) => {
@@ -114,7 +114,7 @@ export const ListView = component$(
         </div>
 
         <div class="flex flex-col w-full h-fit justify-start py-12 px-10 bg-grayBrandLight rounded-lg my-6">
-          <h2 class="text-4xl font-bold text-text">Today</h2>
+          <h2 class="text-4xl font-bold text-text">Events Today</h2>
 
           {!taskToday ? (
             <p>No task today</p>
