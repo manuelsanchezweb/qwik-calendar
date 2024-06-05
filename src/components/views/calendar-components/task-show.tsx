@@ -32,7 +32,7 @@ export const TaskShow = component$(
 
     return (
       <section aria-live="polite" aria-label="Tasks from the selected day">
-        <h1 class="text-text sticky top-0 py-8 text-4xl font-semibold">
+        <h1 class="text-text sticky top-0 text-3xl py-4 font-semibold">
           {selectedDay.getDate().toString().padStart(2, '0') +
             '.' +
             selectedDay.getMonth().toString().padStart(2, '0') +
@@ -68,13 +68,13 @@ export const TaskShow = component$(
           </ul>
         ) : (
           <>
-            <p>You do not have any task yet for this day.</p>
+            <p class='font-light opacity-55'>You do not have any task yet for this day.</p>
             <button
               onClick$={() => {
                 isAddAppointmentModalOpen.value = true
                 document.body.style.overflow = 'hidden'
               }}
-              class="btn my-5"
+              class="btn my-5 font-semibold transition ease-in-out duration-300 "
             >
               Create one
             </button>

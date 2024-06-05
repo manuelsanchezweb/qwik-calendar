@@ -27,7 +27,7 @@ export const CalendarView = component$(
         aria-label="calendar view"
         class="flex flex-col lg:flex-row justify-between gap-6"
       >
-        <div class="bg-grayBrandLight p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2">
+        <div class="bg-grayBrandLight h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
           <Calendar
             appointments={appointments}
             selectedDay={selectedDay}
@@ -35,7 +35,7 @@ export const CalendarView = component$(
           />
         </div>
         <div
-          class={`bg-grayBrandLight h-[60vh] p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  ${hasAppointments ? 'overflow-y-scroll' : 'overflow-hidden'}`}
+          class={`bg-grayBrandLight h-fit max-h-[450px] p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  ${hasAppointments ? 'overflow-y-scroll' : 'overflow-hidden'}`}
         >
           <TaskShow
             userName={userName}

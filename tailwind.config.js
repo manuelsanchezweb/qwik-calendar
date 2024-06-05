@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Poppins']
+      },
       screens: {
         xs: '480px',
         sm: '550px',
@@ -14,7 +17,7 @@ module.exports = {
         grayBrand: '#999999',
         grayBrandLight: '#fafafa',
         grayBrandMiddle: '#D9D9D9',
-        text: '#050505',
+        text: '#212121',
         // ...
       },
     },
