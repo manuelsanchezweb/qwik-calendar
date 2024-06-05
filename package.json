@@ -1,6 +1,6 @@
 {
   "name": "collabender",
-  "version": "0.9.10",
+  "version": "1.0.0",
   "description": "App with Routing built-in (recommended)",
   "engines": {
     "node": ">=20.0.0"

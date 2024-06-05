@@ -42,12 +42,12 @@ export default component$((props: IProps) => {
         </div>
       )}
 
-      <div class="flex rounded-2xl gap-6 justify-between items-start w-full bg-primaryLight px-8 py-4">
-        <div class="gap-2 flex flex-col ">
+      <div class="flex rounded-2xl gap-6 justify-between items-start w-full bg-primaryLight px-8 py-4 relative">
+        <div class="gap-2 flex flex-col w-full">
           <div class="flex flex-col gap-1">
             <h3
               title={props.title}
-              class="font-bold tracking-tight pb-2 text-text md:line-clamp-1 text-sm md:text-xl"
+              class="font-bold tracking-tight pb-2 text-text md:line-clamp-1 text-sm md:text-lg max-w-[95%]"
             >
               {props.title}
             </h3>
@@ -69,7 +69,7 @@ export default component$((props: IProps) => {
 
         {props.showEdit ? (
           <button
-            class="flex justify-end border-[3px] transition-transform hover:scale-105 focus:scale-105 rounded-full  mt-7 border-primary p-1"
+            class="flex absolute right-4 top-4 border-[3px] transition-transform hover:scale-105 focus:scale-105 rounded-full border-primary p-1"
             onClick$={$(() => updateLocalAppointment())}
           >
             <IconManager icon="edit" classCustom="h-8 w-8" />
