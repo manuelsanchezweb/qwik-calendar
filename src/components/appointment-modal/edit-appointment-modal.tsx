@@ -279,6 +279,32 @@ export const EditAppointmentModal = component$(
             </div>
           </div>
 
+          {/* Visibility  */}
+          <div class="flex flex-col gap-2 mt-2 md:mt-8">
+            <label
+              for="visibility"
+              class=" text-text text-md md:text-lg font-semibold"
+            >
+              Visible for
+            </label>
+            <div class="relative">
+              <select
+                required
+                name="visibility"
+                id="visibility"
+                value={editModalData.visibility}
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 cursor-pointer bg-white"
+              >
+                <option value="public">All</option>
+                <option value="private">Only me</option>
+              </select>
+              <IconManager
+                icon="dropdown"
+                classCustom="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 pointer-events-none"
+              />
+            </div>
+          </div>
+
           <input
             hidden
             type="number"

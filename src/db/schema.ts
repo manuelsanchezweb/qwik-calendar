@@ -21,6 +21,9 @@ export const appointmentsTable = sqliteTable('appointments', {
   created_at: text('created_at')
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
+  visibility: text('visibility')
+    .default(sql`'public'`)
+    .notNull(),
   //   updateAt: integer('updated_at', { mode: 'timestamp' }).$onUpdate(() => new Date()),
 })
 

@@ -26,9 +26,13 @@ export const TaskShow = component$(
     const formatDay = (day: Date) => {
       return `${day.getFullYear() + '-' + (day.getMonth() + 1).toString().padStart(2, '0') + '-' + day.getDate().toString().padStart(2, '0')}`
     }
-    const isThereAnyTaskThisDay = appointments.some(
-      (task) => formatDay(selectedDay) === task.date
-    )
+    const isThereAnyTaskThisDay = appointments.some((task) => {
+      const author = getAuthorByTaskId(task.created_by!, users)
+      return (
+        formatDay(selectedDay) === task.date &&
+        (task.visibility === 'public' || author === userName)
+      )
+    })
 
     return (
       <section aria-live="polite" aria-label="Tasks from the selected day">
@@ -46,6 +50,9 @@ export const TaskShow = component$(
             {appointments.map((task, idx) => {
               const author = getAuthorByTaskId(task.created_by!, users)
 
+              if (task.visibility === 'private' && author !== userName)
+                return null
+
               if (formatDay(selectedDay) === task.date) {
                 return (
                   <TaskCard
@@ -59,6 +66,7 @@ export const TaskShow = component$(
                     full_day={task.full_day}
                     time_start={task.time_start}
                     time_end={task.time_end}
+                    visibility={task.visibility}
                     created_by={author}
                     isEditAppointmentModalOpen={isEditAppointmentModalOpen}
                     editModalData={editModalData}

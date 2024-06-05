@@ -1,0 +1,1 @@
+ALTER TABLE `appointments` ADD `visibility` text DEFAULT 'public' NOT NULL;

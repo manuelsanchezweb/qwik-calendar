@@ -75,6 +75,7 @@ export const PastAppointmentsView = component$(
                     time_start={task.time_start}
                     time_end={task.time_end}
                     created_by={author}
+                    visibility={task.visibility}
                     isEditAppointmentModalOpen={null}
                     editModalData={null}
                   />

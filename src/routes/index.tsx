@@ -90,6 +90,7 @@ export default component$(() => {
     time_end: '',
     full_day: 0,
     category: '',
+    visibility: 'public',
   })
 
   if (!isAuthorized) return <LoginForm />
