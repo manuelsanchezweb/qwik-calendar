@@ -15,6 +15,8 @@ export const Calendar = component$(
     const date = useSignal(new Date())
     const weeks = buildCalendar(date.value)
 
+    console.log(selectedDay)
+
     const incrementMonth = $(() => {
       const previousYear = date.value.getFullYear()
       const previousMonth = date.value.getMonth()
@@ -27,6 +29,7 @@ export const Calendar = component$(
       date.value = new Date(previousYear, previousMonth - 1)
     })
 
+
     const setSelectedDay = $((day: CalendarDay) => {
       selectedDay.value = new Date(day.year, day.month + 1, day.day)
       // add the ?day=2022-01-01 to the URL without removing the view from the user
@@ -37,67 +40,32 @@ export const Calendar = component$(
       )
       window.history.pushState({}, '', url.toString())
     })
-
-    const checkSelectedDay = (day: any) => {
-      const currentDate = new Date()
-      const selectedDate = new Date(selectedDay.value)
-
-      const isSelectedDayCurrentDay =
-        selectedDate.getDate() === currentDate.getDate() &&
-        selectedDate.getMonth() === currentDate.getMonth() &&
-        selectedDate.getFullYear() === currentDate.getFullYear()
-
-      if (isSelectedDayCurrentDay) {
-        if (
-          day.day === selectedDate.getDate() &&
-          day.month === selectedDate.getMonth() &&
-          day.year === selectedDate.getFullYear()
-        ) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        if (
-          day.day === selectedDate.getDate() &&
-          day.month === selectedDate.getMonth() - 1 &&
-          day.year === selectedDate.getFullYear()
-        ) {
-          return true
-        } else {
-          return false
-        }
-      }
-    }
+    
+    
 
     const openOnDoubleClick = $((day: any) => {
-      const currentDate = new Date()
-      const selectedDate = new Date(selectedDay.value)
-
-      const isSelectedDayCurrentDay =
-        selectedDate.getDate() === currentDate.getDate() &&
-        selectedDate.getMonth() === currentDate.getMonth() &&
-        selectedDate.getFullYear() === currentDate.getFullYear()
-
+      const currentDate = new Date();
+      const selectedDate = new Date(selectedDay.value);
+    
+      const isSelectedDayCurrentDay = selectedDate.getDate() === currentDate.getDate() &&
+                                      selectedDate.getMonth() === currentDate.getMonth() &&
+                                      selectedDate.getFullYear() === currentDate.getFullYear();
+    
       if (isSelectedDayCurrentDay) {
-        if (
-          day.day === selectedDate.getDate() &&
-          day.month === selectedDate.getMonth() &&
-          day.year === selectedDate.getFullYear()
-        ) {
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() && 
+            day.year === selectedDate.getFullYear()) {
           isAddAppointmentModalOpen.value = true
         } else {
-          setSelectedDay(day)
+          setSelectedDay(day);
         }
       } else {
-        if (
-          day.day === selectedDate.getDate() &&
-          day.month === selectedDate.getMonth() - 1 &&
-          day.year === selectedDate.getFullYear()
-        ) {
-          isAddAppointmentModalOpen.value = true
-        } else {
-          setSelectedDay(day)
+        if (day.day === selectedDate.getDate() && 
+            day.month === selectedDate.getMonth() - 1 && 
+            day.year === selectedDate.getFullYear()) {
+              isAddAppointmentModalOpen.value = true
+            } else {
+              setSelectedDay(day);
         }
       }
     })
@@ -159,19 +127,23 @@ export const Calendar = component$(
             {weeks.flat().map((day, index) => {
               const id = `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
               const hasTask = appointments.some((event) => event.date === id)
+              const selected = selectedDay.value.getFullYear() + '-' + selectedDay.value.getMonth().toString().padStart(2,'0') + '-' + selectedDay.value.getDate().toString().padStart(2,'0')
+              
 
               return (
                 <button
                   key={index}
+                  id={id}
                   data-id={id}
-                  onClick$={() => openOnDoubleClick(day)}
-                  class={`flex relative justify-center hover:border-primary ease-in-out duration-100 transition aspect-square items-center cursor-pointer border
+                  onClick$={() => {openOnDoubleClick(day); console.log('id', id)}}
+                  class={`calendar-day flex relative justify-center hover:border-primary ease-in-out duration-100 transition aspect-square items-center cursor-pointer border
                     ${day.disabled ? 'bg-gray-100 pointer-events-none text-gray-400' : ''}
-                    ${checkSelectedDay(day) ? 'bg-primaryLight text-primary border-primary' : ''}`}
+                    ${id === selected ? 'bg-primaryLight text-primary border-primary' : ''}`}
                 >
                   {day.day}
+                  
                   {hasTask ? (
-                    <p class="absolute w-2 h-2 top-0 right-0 sm:top-2 sm:right-2">
+                    <p class="absolute w-2 h-2 top-0 right-0 md:top-2 md:right-2">
                       <svg
                         width="9"
                         height="9"
