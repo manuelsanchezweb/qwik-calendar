@@ -322,5 +322,33 @@ export const head: DocumentHead = {
       name: 'description',
       content: 'Crea una app de calendario compartida con Qwik!',
     },
+    {
+      name: 'keywords',
+      content: 'time management, shared time management app, calendar app',
+    },
+    {
+      name: 'author',
+      content: 'manuelsanchezweb',
+    },
+    {
+      name: 'og:image',
+      content: 'https://qwik-calendar.vercel.app/screenshot.png',
+    },
+    {
+      name: 'twitter:image',
+      content: 'https://qwik-calendar.vercel.app/screenshot.png',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: 'Calendar App with Qwik',
+    },
+    {
+      name: 'twitter:description',
+      content: 'Collaborative calendar app with Qwik',
+    },
   ],
 }
