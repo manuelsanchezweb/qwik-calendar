@@ -15,7 +15,6 @@ export const Calendar = component$(
     const date = useSignal(new Date())
     const weeks = buildCalendar(date.value)
 
-    console.log(selectedDay)
 
     const incrementMonth = $(() => {
       const previousYear = date.value.getFullYear()
