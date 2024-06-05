@@ -12,6 +12,7 @@ export const TaskShow = component$(
     editModalData,
     isAddAppointmentModalOpen,
     userName,
+    hasMaxHeight,
   }: {
     appointments: IAppointment[]
     selectedDay: Date
@@ -20,10 +21,8 @@ export const TaskShow = component$(
     editModalData: IAppointment
     isAddAppointmentModalOpen: Signal<boolean>
     userName: string
+    hasMaxHeight?: boolean
   }) => {
-    // TODO: why when I click, the day I get is the previous one?
-    // console.log({ selectedDay })
-    console.log(selectedDay.getMonth())
     const formatDay = (day: Date) => {
       return `${day.getFullYear() + '-' + (day.getMonth() + 1).toString().padStart(2, '0') + '-' + day.getDate().toString().padStart(2, '0')}`
     }
@@ -33,16 +32,17 @@ export const TaskShow = component$(
 
     return (
       <section aria-live="polite" aria-label="Tasks from the selected day">
-        <h1 class="text-text sticky top-0 text-3xl py-4 font-semibold">
+        <h2 class="text-text text-3xl py-4 font-semibold">
           {selectedDay.getDate().toString().padStart(2, '0') +
             '.' +
             (selectedDay.getMonth() + 1).toString().padStart(2, '0') +
             '.' +
             selectedDay.getFullYear()}
-        </h1>
-
+        </h2>
         {isThereAnyTaskThisDay ? (
-          <ul class="flex flex-col pt-8 gap-8">
+          <ul
+            class={`flex flex-col pt-8 gap-8 overflow-y-scroll ${hasMaxHeight ? 'max-h-[400px]' : 'overflow-hidden'}`}
+          >
             {appointments.map((task, idx) => {
               const author = getAuthorByTaskId(task.created_by!, users)
 
@@ -69,7 +69,9 @@ export const TaskShow = component$(
           </ul>
         ) : (
           <>
-            <p class='font-light opacity-55'>You do not have any task yet for this day.</p>
+            <p class="font-light opacity-55">
+              You do not have any task yet for this day.
+            </p>
             <button
               onClick$={() => {
                 isAddAppointmentModalOpen.value = true

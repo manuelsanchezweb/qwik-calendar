@@ -157,7 +157,7 @@ export const AddAppointmentModal = component$(
               name="title"
               id="title"
               type="text"
-              class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+              class="w-full border border-grayBrandMedium rounded-md px-4 py-2 bg-white"
             />
           </div>
 
@@ -175,7 +175,7 @@ export const AddAppointmentModal = component$(
                 name="date"
                 id="date"
                 type="date"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 bg-white"
                 defaultValue={defaultOptionForDate.value}
               />
               <div class="pl-4 bg-white absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">

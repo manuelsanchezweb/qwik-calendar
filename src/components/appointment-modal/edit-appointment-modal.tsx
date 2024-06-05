@@ -33,7 +33,6 @@ export const EditAppointmentModal = component$(
       const startTimeValue =
         document.querySelector<HTMLInputElement>('#time_start')?.value
 
-
       const startTimeFromHoursToSeconds =
         Number(startTimeValue?.split(':')[0]) * 60 +
         Number(startTimeValue?.split(':')[1])
@@ -153,7 +152,7 @@ export const EditAppointmentModal = component$(
               name="title"
               id="title"
               type="text"
-              class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+              class="w-full border border-grayBrandMedium rounded-md px-4 py-2 bg-white"
             />
           </div>
 
@@ -171,7 +170,7 @@ export const EditAppointmentModal = component$(
                 name="date"
                 id="date"
                 type="date"
-                class="w-full border border-grayBrandMedium rounded-md px-4 py-2"
+                class="w-full border border-grayBrandMedium rounded-md px-4 py-2 bg-white"
                 value={editModalData.date}
               />
               <div class="pl-4 bg-white absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">

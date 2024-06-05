@@ -11,6 +11,7 @@ export const CalendarView = component$(
     isEditAppointmentModalOpen,
     editModalData,
     userName,
+    lastDayVisitedDate,
   }: {
     appointments: IAppointment[]
     users: Array<IUser>
@@ -18,8 +19,9 @@ export const CalendarView = component$(
     isEditAppointmentModalOpen: Signal<boolean>
     editModalData: IAppointment
     userName: string
+    lastDayVisitedDate: Date
   }) => {
-    const selectedDay = useSignal(new Date())
+    const selectedDay = useSignal(lastDayVisitedDate)
     const hasAppointments = appointments.length > 0
 
     return (
@@ -27,7 +29,7 @@ export const CalendarView = component$(
         aria-label="calendar view"
         class="flex flex-col lg:flex-row justify-between gap-6"
       >
-        <div class="bg-grayBrandLight h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
+        <div class="bg-grayBrandLight md:h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
           <Calendar
             appointments={appointments}
             selectedDay={selectedDay}
@@ -35,9 +37,10 @@ export const CalendarView = component$(
           />
         </div>
         <div
-          class={`bg-grayBrandLight h-fit max-h-[450px] p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  ${hasAppointments ? 'overflow-y-scroll' : 'overflow-hidden'}`}
+          class={`bg-grayBrandLight h-fit p-6 md:p-12 pt-2 rounded-xl w-full lg:w-1/2  `}
         >
           <TaskShow
+            hasMaxHeight={hasAppointments}
             userName={userName}
             appointments={appointments}
             selectedDay={selectedDay.value}

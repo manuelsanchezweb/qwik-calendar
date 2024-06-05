@@ -12,9 +12,8 @@ export const Calendar = component$(
     selectedDay: Signal<Date>
     isAddAppointmentModalOpen: Signal<boolean>
   }) => {
-    const date = useSignal(new Date())
+    const date = useSignal(selectedDay.value)
     const weeks = buildCalendar(date.value)
-
 
     const incrementMonth = $(() => {
       const previousYear = date.value.getFullYear()
@@ -28,7 +27,6 @@ export const Calendar = component$(
       date.value = new Date(previousYear, previousMonth - 1)
     })
 
-
     const setSelectedDay = $((day: CalendarDay) => {
       selectedDay.value = new Date(day.year, day.month, day.day)
       // add the ?day=2022-01-01 to the URL without removing the view from the user
@@ -39,18 +37,17 @@ export const Calendar = component$(
       )
       window.history.pushState({}, '', url.toString())
     })
-    
-    
 
     const openOnDoubleClick = $((day: any) => {
-
-        if (day.day === Number(selectedDay.value.getDate()) && 
-            day.month === Number(selectedDay.value.getMonth()) && 
-            day.year === Number(selectedDay.value.getFullYear())) {
-          isAddAppointmentModalOpen.value = true
-        } else {
-          setSelectedDay(day);
-        }  
+      if (
+        day.day === Number(selectedDay.value.getDate()) &&
+        day.month === Number(selectedDay.value.getMonth()) &&
+        day.year === Number(selectedDay.value.getFullYear())
+      ) {
+        isAddAppointmentModalOpen.value = true
+      } else {
+        setSelectedDay(day)
+      }
     })
 
     return (
@@ -108,25 +105,37 @@ export const Calendar = component$(
 
           <div class="grid grid-cols-7 h-fit mt-4 border">
             {weeks.flat().map((day, index) => {
-              const id = `${day.year}-${(day.month).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
-              const hasTask = appointments.some((event) => event.date === `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`)
-              const selected = selectedDay.value.getFullYear() + '-' + (selectedDay.value.getMonth()).toString().padStart(2,'0') + '-' + selectedDay.value.getDate().toString().padStart(2,'0')
-              console.log(selected)
-              console.log(id)
-              
+              const id = `${day.year}-${day.month.toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+              const hasTask = appointments.some(
+                (event) =>
+                  event.date ===
+                  `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+              )
+
+              const selected =
+                selectedDay.value.getFullYear() +
+                '-' +
+                selectedDay.value.getMonth().toString().padStart(2, '0') +
+                '-' +
+                selectedDay.value.getDate().toString().padStart(2, '0')
+              // console.log(selected)
+              // console.log(id)
 
               return (
                 <button
                   key={index}
                   id={id}
                   data-id={id}
-                  onClick$={() => {openOnDoubleClick(day); console.log('id', id)}}
+                  onClick$={() => {
+                    openOnDoubleClick(day)
+                    // console.log('id', id)
+                  }}
                   class={`calendar-day flex relative justify-center hover:border-primary ease-in-out duration-100 transition aspect-square items-center cursor-pointer border
                     ${day.disabled ? 'bg-gray-100 pointer-events-none text-gray-400' : ''}
                     ${id === selected ? 'bg-primaryLight text-primary border-primary' : ''}`}
                 >
                   {day.day}
-                  
+
                   {hasTask ? (
                     <p class="absolute w-2 h-2 top-0 right-0 sm:top-2 sm:right-2">
                       <svg
