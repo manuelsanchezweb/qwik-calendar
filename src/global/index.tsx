@@ -92,6 +92,7 @@ export const useEditAppointment = globalAction$(async (data, { cookie }) => {
     full_day: isFullDay,
     category: data['category'] as string,
     created_by: authorId,
+    visibility: data['visibility'] as string,
   }
 
   await updateAppointment(data['id'] as number, newAppointment)
