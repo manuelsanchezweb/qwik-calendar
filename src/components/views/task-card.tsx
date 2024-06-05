@@ -14,6 +14,7 @@ interface IProps {
   category: string
   time_end: string
   full_day: number
+  visibility: string
   isEditAppointmentModalOpen: Signal<boolean> | null
   editModalData: IAppointment | null
 }
@@ -32,6 +33,7 @@ export default component$((props: IProps) => {
     props.editModalData.time_end = props.time_end
     props.editModalData.full_day = props.full_day
     props.editModalData.category = props.category
+    props.editModalData.visibility = props.visibility
   })
 
   return (
@@ -74,6 +76,17 @@ export default component$((props: IProps) => {
           >
             <IconManager icon="edit" classCustom="h-8 w-8" />
           </button>
+        ) : (
+          ''
+        )}
+
+        {props.visibility == 'private' ? (
+          <span
+            title="This task is private, only you can see it"
+            class="flex absolute right-4 bottom-4 border-[3px] rounded-full border-primary p-1"
+          >
+            <IconManager icon="private" classCustom="h-8 w-8 text-primary" />
+          </span>
         ) : (
           ''
         )}
