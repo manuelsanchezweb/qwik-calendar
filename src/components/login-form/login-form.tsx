@@ -5,7 +5,7 @@ import { useSubmitPassword } from '~/global'
 import { Logo } from '~/icons/logos'
 
 export const LoginForm = component$(() => {
-  const passwordVisible = useSignal(true)
+  const passwordVisible = useSignal(false)
   const submitAction = useSubmitPassword()
 
   const togglePasswordVisibility = $(() => {
