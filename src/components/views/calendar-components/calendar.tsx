@@ -137,10 +137,9 @@ export const Calendar = component$(
                   {day.day}
 
                   {hasTask ? (
-                    <p class="absolute w-2 h-2 top-0 right-0 sm:top-2 sm:right-2">
+                    <p class="absolute w-2 h-2 top-1 right-0 sm:top-2 sm:right-2">
                       <svg
-                        width="9"
-                        height="9"
+                        class='w-[6px] h-[6px] sm:w-2 sm:h-2'
                         viewBox="0 0 9 9"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

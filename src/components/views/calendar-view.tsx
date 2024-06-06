@@ -29,7 +29,7 @@ export const CalendarView = component$(
         aria-label="calendar view"
         class="flex flex-col lg:flex-row justify-between gap-6"
       >
-        <div class="bg-grayBrandLight md:h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
+        <div class="bg-grayBrandLight h-fit lg:h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
           <Calendar
             appointments={appointments}
             selectedDay={selectedDay}

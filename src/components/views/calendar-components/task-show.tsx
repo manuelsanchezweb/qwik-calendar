@@ -45,7 +45,7 @@ export const TaskShow = component$(
         </h2>
         {isThereAnyTaskThisDay ? (
           <ul
-            class={`flex flex-col pt-8 gap-8 overflow-y-scroll ${hasMaxHeight ? 'max-h-[400px]' : 'overflow-hidden'}`}
+            class={`flex flex-col pt-8 gap-8 px-2 scrollbar scrollbar-thumb-primary  scrollbar-track-grayBrandLight overflow-y-scroll ${hasMaxHeight ? 'max-h-[400px]' : 'overflow-hidden'}`}
           >
             {appointments.map((task, idx) => {
               const author = getAuthorByTaskId(task.created_by!, users)

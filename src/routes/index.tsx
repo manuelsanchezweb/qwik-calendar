@@ -175,18 +175,18 @@ export default component$(() => {
         </svg>
 
         <Debug users={users} appointments={appointments} />
-        <div class="flex flex-row justify-between items-center">
-          <div class="flex md:items-center gap-2">
-            <div class="text-primary text-3xl md:text-8xl">
+        <div class="flex flex-row justify-between items-end sm:items-center">
+          <div class="flex flex-col justify-start sm:flex-row sm:items-center sm:gap-2">
+            <div class="text-primary text-start text-7xl md:text-8xl">
               {getCurrentDay()}
             </div>
-            <div class="flex md:px-4 flex-col md:leading-[35px] md:text-3xl">
+            <div class="flex sm:px-4 flex-col text-2xl sm:leading-[35px] sm:text-3xl">
               <span>{getDayName()}</span>
               <span>{getCurrentMonthAndYear()}</span>
             </div>
           </div>
           <div class="flex flex-col gap-2 md:flex-row md:items-center">
-            <small class="text-primary flex items-center text-lg">
+            <small class="text-primary flex items-center text-2xl">
               {/* I commented out because it looks like you can click on it, */}
               {/* At the beginning we wanted to do some settings here  */}
               {/* <svg
@@ -229,9 +229,9 @@ export default component$(() => {
                   />
                 </g>
               </svg> */}
-              <span class="sm:hidden">Hi,</span>
-              <span class="hidden sm:block">Howdy,</span>
-              <span class="font-bold ml-2">{userName}</span>!
+              <span class="sm:hidden text-2xl">Hi,</span>
+              <span class="hidden sm:block text-2xl">Howdy,</span>
+              <span class="font-bold ml-2 text-2xl">{userName}</span>!
             </small>
           </div>
         </div>
