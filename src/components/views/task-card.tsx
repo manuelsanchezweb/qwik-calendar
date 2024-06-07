@@ -49,7 +49,7 @@ export default component$((props: IProps) => {
           <div class="flex flex-col gap-1">
             <h3
               title={props.title}
-              class="font-bold tracking-tight pb-2 text-text md:line-clamp-1 text-sm md:text-lg max-w-[95%]"
+              class="font-bold tracking-tight pb-2 text-text md:line-clamp-1 text-sm md:text-lg max-w-[90%]"
             >
               {props.title}
             </h3>
