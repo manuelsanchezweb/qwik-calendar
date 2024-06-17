@@ -31,6 +31,8 @@ export const CalendarView = component$(
       >
         <div class="bg-grayBrandLight h-fit lg:h-[600px] p-6 md:p-12 md:pt-2 rounded-xl w-full lg:w-1/2">
           <Calendar
+            users={users}
+            userName={userName}
             appointments={appointments}
             selectedDay={selectedDay}
             isAddAppointmentModalOpen={isAddAppointmentModalOpen}

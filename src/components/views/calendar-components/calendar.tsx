@@ -1,16 +1,21 @@
 import { component$, $, useSignal, type Signal } from '@builder.io/qwik'
-import type { IAppointment, CalendarDay } from '~/types/types'
+import type { IAppointment, CalendarDay, IUser } from '~/types/types'
 import { buildCalendar, getMonthName } from './calendar-functions'
+import { getAuthorByTaskId } from '~/utils/functions'
 
 export const Calendar = component$(
   ({
     appointments,
     selectedDay,
     isAddAppointmentModalOpen,
+    userName,
+    users,
   }: {
     appointments: IAppointment[]
     selectedDay: Signal<Date>
     isAddAppointmentModalOpen: Signal<boolean>
+    userName: string
+    users: Array<IUser>
   }) => {
     const date = useSignal(selectedDay.value)
     const weeks = buildCalendar(date.value)
@@ -106,10 +111,17 @@ export const Calendar = component$(
           <div class="grid grid-cols-7 h-fit mt-4 border">
             {weeks.flat().map((day, index) => {
               const id = `${day.year}-${day.month.toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+
               const hasTask = appointments.some(
                 (event) =>
-                  event.date ===
-                  `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`
+                  (event.visibility === 'private' &&
+                    getAuthorByTaskId(event.created_by as number, users) ===
+                      userName &&
+                    event.date ===
+                      `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`) ||
+                  (event.visibility === 'public' &&
+                    event.date ===
+                      `${day.year}-${(day.month + 1).toString().padStart(2, '0')}-${day.day.toString().padStart(2, '0')}`)
               )
 
               const selected =
@@ -139,7 +151,7 @@ export const Calendar = component$(
                   {hasTask ? (
                     <p class="absolute w-2 h-2 top-1 right-0 sm:top-2 sm:right-2">
                       <svg
-                        class='w-[6px] h-[6px] sm:w-2 sm:h-2'
+                        class="w-[6px] h-[6px] sm:w-2 sm:h-2"
                         viewBox="0 0 9 9"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
