@@ -33,18 +33,18 @@ export const AddAppointmentModal = component$(
     })
 
     const fullDayRef = useSignal<HTMLInputElement>()
+
+    const startTimeRef = useSignal<HTMLInputElement>()
     const endTimeRef = useSignal<HTMLInputElement>()
+
     const hasDateInputError = useSignal<boolean>(false)
     const areInputsDisabled = useSignal<boolean>()
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(({ track }) => {
-      const startTimeValue =
-        document.querySelector<HTMLInputElement>('#time_start')?.value
-
       const startTimeValueInSeconds =
-        Number(startTimeValue?.split(':')[0]) * 60 +
-        Number(startTimeValue?.split(':')[1])
+        Number(startTimeRef.value?.value.split(':')[0]) * 60 +
+        Number(startTimeRef.value?.value.split(':')[1])
       const endTimeValueInSeconds =
         Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
         Number(endTimeRef.value?.value?.split(':')[1])
@@ -60,10 +60,29 @@ export const AddAppointmentModal = component$(
       }
 
       track(() =>
+        startTimeRef.value?.addEventListener('input', () => {
+          const startTimeValueInSeconds =
+            Number(startTimeRef.value?.value.split(':')[0]) * 60 +
+            Number(startTimeRef.value?.value.split(':')[1])
+          const endTimeValueInSeconds =
+            Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
+            Number(endTimeRef.value?.value?.split(':')[1])
+
+          console.log({ startTimeValueInSeconds, endTimeValueInSeconds })
+
+          if (endTimeValueInSeconds < startTimeValueInSeconds + 15) {
+            hasDateInputError.value = true
+          } else {
+            hasDateInputError.value = false
+          }
+        })
+      )
+
+      track(() =>
         endTimeRef.value?.addEventListener('input', () => {
           const startTimeValueInSeconds =
-            Number(startTimeValue?.split(':')[0]) * 60 +
-            Number(startTimeValue?.split(':')[1])
+            Number(startTimeRef.value?.value.split(':')[0]) * 60 +
+            Number(startTimeRef.value?.value.split(':')[1])
           const endTimeValueInSeconds =
             Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
             Number(endTimeRef.value?.value?.split(':')[1])
@@ -79,8 +98,8 @@ export const AddAppointmentModal = component$(
       track(() =>
         fullDayRef.value?.addEventListener('change', () => {
           const startTimeValueInSeconds =
-            Number(startTimeValue?.split(':')[0]) * 60 +
-            Number(startTimeValue?.split(':')[1])
+            Number(startTimeRef.value?.value.split(':')[0]) * 60 +
+            Number(startTimeRef.value?.value?.split(':')[1])
           const endTimeValueInSeconds =
             Number(endTimeRef.value?.value?.split(':')[0]) * 60 +
             Number(endTimeRef.value?.value?.split(':')[1])
@@ -204,6 +223,7 @@ export const AddAppointmentModal = component$(
               </label>
               <div class="relative">
                 <input
+                  ref={startTimeRef}
                   value={'08:00'}
                   name="time_start"
                   id="time_start"
