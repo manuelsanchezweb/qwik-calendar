@@ -16,6 +16,11 @@ export const APP_USERS = [
     name: 'Finn',
     password: 'wsrules',
   },
+  {
+    id: 3,
+    name: 'test',
+    password: 'test',
+  },
 ]
 
 /**
