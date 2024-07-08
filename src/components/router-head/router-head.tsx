@@ -8,6 +8,18 @@ export const RouterHead = component$(() => {
   const head = useDocumentHead()
   const loc = useLocation()
 
+  const scriptToAdd = `
+
+
+  (function(d, t) {
+      var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.pushalert.co/integrate_0e441160613d873bb57688051624e3da.js";
+      s.parentNode.insertBefore(g, s);
+  }(document, "script"));
+
+  `
+
   return (
     <>
       <title>{head.title}</title>
@@ -30,6 +42,8 @@ export const RouterHead = component$(() => {
       {head.styles.map((s) => (
         <style key={s.key} {...s.props} dangerouslySetInnerHTML={s.style} />
       ))}
+
+      <script type="text/javascript">{scriptToAdd}</script>
     </>
   )
 })
