@@ -1,7 +1,6 @@
 import { $, component$, useSignal } from '@builder.io/qwik'
 import { Form } from '@builder.io/qwik-city'
 import { useSubmitPassword } from '~/global'
-
 import { Logo } from '~/icons/logos'
 
 export const LoginForm = component$(() => {
@@ -11,7 +10,6 @@ export const LoginForm = component$(() => {
   const togglePasswordVisibility = $(() => {
     passwordVisible.value = !passwordVisible.value
   })
-
   return (
     <div class="flex flex-col items-center bg-primaryLight fixed inset-0 justify-center">
       <div class="flex flex-col items-center px-4 md:px-16 py-12 bg-grayBrandLight rounded-lg shadow-sm">
