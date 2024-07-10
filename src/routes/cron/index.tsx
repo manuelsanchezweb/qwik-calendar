@@ -1,14 +1,11 @@
 import type { RequestHandler } from '@builder.io/qwik-city'
+import { sendPushNotificationToEndpoint } from '~/utils/notifications'
 
-export const onRequest: RequestHandler = ({
-  headers,
-  query,
-  json,
-  request,
-}) => {
-  console.log('This is the request:', request)
-  headers.set('Cache-Control', 'private')
-  if (query.get('format') === 'json') {
-    json(200, { message: 'Hello World' })
-  }
+export const onGet: RequestHandler = ({ json }) => {
+  sendPushNotificationToEndpoint({
+    title: 'Hi! You might have some appointments today!',
+    message: 'Check your calendar to see what you have planned for today!',
+  })
+
+  json(200, { message: 'Hello World' })
 }
