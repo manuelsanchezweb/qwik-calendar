@@ -13,7 +13,7 @@ export const onPost = async ({
     title: body.title,
     message: body.message,
     url: 'https://qwik-calendar.vercel.app/',
-    icon: 'https://qwik-calendar.vercel.app/home.png',
+    icon: 'https://qwik-calendar.vercel.app/logo.png',
   })
 
   const response = await fetch('https://api.pushalert.co/rest/v1/send', {
