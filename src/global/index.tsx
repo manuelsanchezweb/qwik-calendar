@@ -111,3 +111,51 @@ export const useRemoveAppointment = globalAction$(async (data) => {
     success: true,
   }
 })
+
+/**
+ * Send notification push
+ */
+export const useSendPushNotification = async () => {
+  const apiKey = import.meta.env.VITE_API_KEY_PUSH
+
+  const payload = new URLSearchParams({
+    title: 'Test, this is like the minimum payload possible',
+    message: 'Test message, this should be the minimum payload possible',
+    url: 'https://qwik-calendar.vercel.app/',
+    icon: 'https://qwik-calendar.vercel.app/home.png',
+  })
+
+  const response = await fetch('https://api.pushalert.co/rest/v1/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `api_key=${apiKey}`,
+    },
+    body: payload.toString(),
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    console.error('Failed to send push notification:', error)
+    return {
+      success: false,
+      error,
+    }
+  }
+
+  const result = await response.json()
+
+  if (result.success) {
+    console.log('Notification sent, ID:', result.id)
+    return {
+      success: true,
+      id: result.id,
+    }
+  } else {
+    console.error('Failed to send push notification:', result)
+    return {
+      success: false,
+      error: result,
+    }
+  }
+}

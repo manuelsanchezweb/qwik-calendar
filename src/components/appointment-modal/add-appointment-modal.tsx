@@ -10,6 +10,7 @@ import { Form } from '@builder.io/qwik-city'
 import { APP_CATEGORIES } from '~/config'
 import { useAddAppointment } from '~/global'
 import { IconManager } from '~/icons/icon-manager'
+import { sendPushNotificationToEndpoint } from '~/utils/notifications'
 
 export function getDayFromUrl() {
   const url = new URL(window.location.href)
@@ -145,6 +146,10 @@ export const AddAppointmentModal = component$(
       $(() => {
         isAddAppointmentModalOpen.value = false
         document.body.style.overflow = 'auto'
+        sendPushNotificationToEndpoint({
+          title: 'New appointment added!',
+          message: 'Take a look at your new appointment in the calendar!',
+        })
       })
     )
 
